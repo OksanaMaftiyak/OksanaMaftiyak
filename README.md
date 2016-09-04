@@ -1,1 +1,1 @@
-# OksanaMaftiyak
+#  Oksana Maftiyak repository for java course
