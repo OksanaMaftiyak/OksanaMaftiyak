@@ -56,7 +56,7 @@ public class variant20 {
     }
 
     public int integerNumbersTask(int k) {
-        return k / 360;
+        return k / 3600;
     }
 
     public boolean booleanTask(int number) {
