@@ -1,19 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class User implements Comparable<User> {
+
     private final int id;
     private String firstName;
     private String lastName;
     private final int yearBirth;
 
+    private static int nextId = 1;
 
-    public User(String firstName, String lastName, int yearBirth, int id) {
+    public User(String firstName, String lastName, int yearBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.yearBirth = yearBirth;
-        this.id = id;
-
+        this.id = nextId++;
     }
 
     @Override
@@ -44,4 +42,5 @@ public class User implements Comparable<User> {
     public int getYearBirth() {
         return yearBirth;
     }
+
 }

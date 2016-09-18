@@ -11,8 +11,10 @@ public class Ticket {
     private Date dateReturning;
     private int pay;
 
-    public Ticket(int id, Book book, Date dateTaking, Date dateReturning, int pay, User user) {
-        this.id = id;
+    private static int nextId = 1;
+
+    public Ticket(Book book, Date dateTaking, Date dateReturning, int pay, User user) {
+        this.id = nextId++;
         this.book = book;
         this.dateTaking = dateTaking;
         this.dateReturning = dateReturning;
@@ -23,7 +25,6 @@ public class Ticket {
     public User getUser() {
         return user;
     }
-
 
     public int getId() {
         return id;

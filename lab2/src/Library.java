@@ -21,88 +21,91 @@ public class Library {
         this.name = name;
     }
 
-    public ArrayList<Book> selectBookYear(int yearPublication) {
-        ArrayList<Book> booksOfYears = new ArrayList<>();
-        sortBookOfAuthor();
-        int i = 0;
-        while (books.get(i).getYearPublication() != yearPublication) {
-            i++;
+    public ArrayList<Book> selectBooksByYear(int yearPublication) {
+        ArrayList<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getYearPublication() == yearPublication) {
+                result.add(book);
+            }
         }
-        while ((books.get(i).getYearPublication() == yearPublication)) {
-            booksOfYears.add(books.get(i));
-            i++;
-        }
-        return booksOfYears;
+        return result;
     }
 
-    public ArrayList<Book> selectBookAuthor(String author) {
-        ArrayList<Book> booksOfAuthor = new ArrayList<>();
-        sortBookOfAuthor();
-        int i = 0;
-        while (!Objects.equals(books.get(i).getAuthor(), author)) {
-            i++;
+    public ArrayList<Book> selectBooksByAuthor(String author) {
+        ArrayList<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (Objects.equals(book.getAuthor(), author)) {
+                result.add(book);
+            }
         }
-        while (Objects.equals(books.get(i).getAuthor(), author)) {
-            booksOfAuthor.add(books.get(i));
-            i++;
-        }
-        return booksOfAuthor;
+        return result;
     }
 
-    public ArrayList<Book> selectBookTitle(String bookTitle) {
-        ArrayList<Book> booksOfTitle = new ArrayList<>();
-        sortBookOfAuthor();
-        int i = 0;
-        while (!Objects.equals(books.get(i).getBookTitle(), bookTitle)) {
-            i++;
+    public ArrayList<Book> selectBooksByTitle(String bookTitle) {
+        ArrayList<Book> result = new ArrayList<>();
+        for (Book book : books) {
+            if (Objects.equals(book.getBookTitle(), bookTitle)) {
+                result.add(book);
+            }
         }
-        while (Objects.equals(books.get(i).getBookTitle(), bookTitle)) {
-            booksOfTitle.add(books.get(i));
-            i++;
-        }
-        return booksOfTitle;
+        return result;
     }
-
 
     public void returnBook(Book book) {
-        int i = tickets.indexOf(book.getTicket());
-        tickets.get(i).setDateReturning(new Date());
-        i = books.indexOf(book);
-        books.get(i).setTicket(null);
+        if (book == null) {
+            throw new IllegalArgumentException("Book couldn't be null");
+        }
+        returnBook(book.getId());
     }
-    public void returnBook(int id) {
-        int i=0;
-        while(id!=books.get(i).getId()|| books.get(i)!=null){
-            i++;
+
+    public void returnBook(int bookId) {
+        Book book = getBookById(bookId);
+        if (book == null) {
+            throw new IllegalArgumentException("Book not found");
         }
-        tickets.indexOf(books.get(i).getTicket());
-        tickets.get(i).setDateReturning(new Date());
-        books.get(i).setTicket(null);
+        Ticket ticket = book.getTicket();
+        ticket.setDateReturning(new Date());
+        book.setTicket(null);
     }
-    public void takeBook(int id, int pay, int idUser) {
-        int i=0,j=0;
-        while(id!=books.get(i).getId()|| books.get(i)!=null){
-            i++;
+
+    public User getUserById(final int userId) {
+        for (User user : users) {
+            if (userId == user.getId()) {
+                return user;
+            }
         }
-        while(id!=users.get(j).getId()|| users.get(j)!=null){
-            j++;
+        return null;
+    }
+
+    public Book getBookById(final int bookId) {
+        for (Book book : books) {
+            if (bookId == book.getId()) {
+                return book;
+            }
         }
-        Ticket ticket = new Ticket(this.hashCode(), books.get(i), new Date(), null, pay, users.get(j));
+        return null;
+    }
+
+    public void takeBook(int bookId, int userId, int pay) {
+        Book book = getBookById(bookId);
+        User user = getUserById(userId);
+        if (book == null) {
+            throw new IllegalArgumentException("Book not found");
+        }
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Ticket ticket = new Ticket(book, new Date(), null, pay, user);
         addTicket(ticket);
-        books.get(i).setTicket(ticket);
+        book.setTicket(ticket);
     }
 
-    public void sortBookOfAuthor() {
-        Collections.sort(books, Book.AuthorComparator);
-    }
-
-    public void sortBookOfYear() {
-        Collections.sort(books, Book.YearComparator);
-    }
-
-
-    public void sortBookTitle() {
-        Collections.sort(books, Book.BookTitleComparator);
+    public void printAllBooksSorted(Comparator<Book> comparator) {
+        List<Book> allBooks = new ArrayList<>(books);
+        Collections.sort(allBooks, comparator);
+        for (Book book : allBooks) {
+            System.out.println(book);
+        }
     }
 
     public List<User> getUsers() {

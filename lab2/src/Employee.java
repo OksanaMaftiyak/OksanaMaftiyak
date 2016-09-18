@@ -9,8 +9,10 @@ public class Employee {
     private final int yearBirth;
     private int salary;
 
-    public Employee(int id, String firstName, String lastName, String position, int yearBirth, int salary) {
-        this.id = id;
+    private static int nextId = 1;
+
+    public Employee(String firstName, String lastName, String position, int yearBirth, int salary) {
+        this.id = nextId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
@@ -73,4 +75,5 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, yearBirth);
     }
+
 }

@@ -3,6 +3,7 @@ import java.util.Objects;
 
 public class Book {
 
+    public static final String EMPTY_STRING = "";
     private final String bookTitle;
     private final String author;
     private final int yearPublication;
@@ -12,16 +13,21 @@ public class Book {
     private final int id;
     private Ticket ticket;
 
+    private static int nextId = 1;
+
     public Book() {
-        this("", "", 0, "", "", "", 0000,null);
+        this(0, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, null);
+    }
+
+    public Book(int yearPublication, String author, String bookTitle, String description, String language, String genre, Ticket ticket) {
+        this(nextId++, yearPublication, author, bookTitle, description, language, genre, ticket);
     }
 
     public Book(Book book) {
-
-        this(book.bookTitle, book.author, book.yearPublication, book.language, book.description, book.genre, book.id,book.ticket);
+        this(book.id, book.yearPublication, book.author, book.bookTitle, book.description, book.language, book.genre, book.ticket);
     }
 
-    public Book(String bookTitle, String author, int yearPublication, String language, String description, String genre, int id, Ticket ticket) {
+    private Book(int id, int yearPublication, String author, String bookTitle, String description, String language, String genre, Ticket ticket) {
         this.bookTitle = bookTitle;
         this.author = author;
         this.yearPublication = yearPublication;
@@ -36,13 +42,7 @@ public class Book {
 
         @Override
         public int compare(Book book1, Book book2) {
-            if (book1.yearPublication > book2.yearPublication) {
-                return 1;
-            } else if (book1.yearPublication < book2.yearPublication) {
-                return -1;
-            } else {
-                return 0;
-            }
+            return book1.yearPublication - book2.yearPublication;
         }
     };
 
@@ -54,8 +54,7 @@ public class Book {
         }
     };
 
-    public static Comparator<Book> BookTitleComparator = new Comparator<Book>() {
-
+    public static Comparator<Book> TitleComparator = new Comparator<Book>() {
         @Override
         public int compare(Book book1, Book book2) {
             return (book1.bookTitle.compareToIgnoreCase(book2.bookTitle));
@@ -114,4 +113,21 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append("title: ").append(bookTitle);
+        sb.append("author: ").append(author);
+        sb.append("year: ").append(yearPublication);
+        sb.append("language: ").append(language);
+        sb.append("description: ").append(description);
+        sb.append("genre: ").append(genre);
+        sb.append("id: ").append(id);
+        sb.append("has ticket: ").append(ticket == null ? "no" : "yes");
+        sb.append("]");
+        return sb.toString();
+    }
+
 }
