@@ -1,11 +1,8 @@
 package lab1;
 
-import java.util.Arrays;
+import java.util.Objects;
 
-import static java.lang.System.out;
-
-
-public class variant20 {
+public class Variant20 {
 
     public enum Zodiaс {
 
@@ -53,29 +50,70 @@ public class variant20 {
             this.y = y;
         }
 
-    }
-
-    public int integerNumbersTask(int k) {
-        return k / 3600;
-    }
-
-    public boolean booleanTask(int number) {
-        if (number > 999) {
-            out.println(" You entered invalid value;");
-            return false;
+        public Point(double x, double y) {
+            this.x = x;
+            this.y = y;
         }
-        return ((number / 100) != (number % 10)
-                && (number / 100) != (number / 10 % 10)
-                && (number / 10) % 10 != (number % 10)
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            Point point = (Point) obj;
+            return Double.compare(point.x, x) == 0 &&
+                    Double.compare(point.y, y) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+
+    }
+
+    public double inputOutputTask(Point pointA, Point pointB) {
+        return Math.sqrt(
+                (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX())
+                        + (pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY())
         );
     }
 
-    public double ifTask(double A, double B, double C) {
-        if (Math.abs(A - B) > Math.abs(A - C)) {
-            return Math.abs(A - C);
+    public double inputOutputTask(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    }
+
+    public int integerNumbersTask(int n) {
+        assert n >= 0;
+        return n / 3600;
+    }
+
+    public boolean booleanTask(int number) {
+//        if (number > 999 || number < 100) {
+//            System.out.println(" You entered invalid value;");
+//            throw new AssertionError();
+//        }
+        assert number >= 100;
+        assert number <= 999;
+        return ((number / 100) != (number % 10)
+                && (number / 100) != (number / 10 % 10)
+                && (number / 10) % 10 != (number % 10));
+
+    }
+
+    public Point ifTask(double A, double B, double C) {
+        Point result = new Point(0, 0);
+        if (Math.abs(A - B) >= Math.abs(A - C)) {
+            result.setX(C);
+            result.setY(Math.abs(A - C));
         } else {
-            return Math.abs(A - B);
+            result.setX(B);
+            result.setY(Math.abs(A - B));
         }
+        return result;
     }
 
     public Zodiaс switchTask(int month, int day) {
@@ -91,22 +129,21 @@ public class variant20 {
         return null;
     }
 
-    public double inputOutputTask(Point pointA, Point pointB) {
-        return Math.sqrt(
-                (pointB.getX() - pointA.getX()) * (pointB.getX() - pointA.getX())
-                        + (pointB.getY() - pointA.getY()) * (pointB.getY() - pointA.getY())
-        );
-    }
-
-    public double forTask(int n) {
-        double result = 1.0, lastStep = 1.0;
+    public strictfp double forTask(int n) {
+        double result = 0;
+        double fact = 1.0;
         for (int i = 1; i <= n; i++) {
-            result += lastStep * i;
+            fact = fact * i;
+            result = result + fact;
         }
         return result;
     }
 
     public boolean whileTask(int n) {
+//        if (n <= 0) {
+//            throw new AssertionError();
+//        }
+        assert n > 0;
         int variable;
         do {
             variable = n % 10;
@@ -118,7 +155,7 @@ public class variant20 {
     public int arrayTask(double[] array) {
         int countMono = 0, countValue = 0;
         for (int i = 0; i < array.length - 1; i++) {
-            while (array[i] < array[i + 1] && i < array.length) {
+            while (i < array.length - 1 && array[i] < array[i + 1]) {
                 i++;
                 countValue++;
             }
@@ -131,21 +168,37 @@ public class variant20 {
     }
 
     public int[][] twoDimensionArrayTask(int[][] array) {
-        int count = 0;
+        int count = 0, j, g, J = -1;
         int[][] arrayResult;
-        for (int[] anArray : array) {
-            if (anArray[array.length - 1] < 0) {
-                count++;
-            }
-        }
-        if (count == array.length) {
-            arrayResult = Arrays.copyOf(array, array.length);
+        for (j = 0; j < array[1].length; j++) {
             for (int i = 0; i < array.length; i++) {
-                arrayResult[i] = Arrays.copyOf(array[i], array.length - 1);
+                if (array[i][j] < 0) {
+                    count++;
+                }
             }
-            return arrayResult;
+            if (count == array.length) {
+                J = j;
+            }
+            count = 0;
         }
-        return array;
+        if (J != -1) {
+            arrayResult = new int[array.length][array[0].length - 1];
+
+            for (int i = 0; i < array.length; i++) {
+
+                for (j = 0, g = 0; g < array[i].length - 1; g++, j++) {
+                    if (j == J) {
+                        j++;
+                    }
+                    arrayResult[i][g] = array[i][j];
+
+                }
+            }
+
+
+            return arrayResult;
+        } else
+            return array;
     }
 
 }
