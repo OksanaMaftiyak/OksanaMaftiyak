@@ -6,16 +6,16 @@ import java.util.Scanner;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
-import static lab1.variant20.Point;
+import static lab1.Variant20.Point;
 
 public class Controller {
 
     Scanner scan = new Scanner(in);
-    variant20 lab1 = new variant20();
+    Variant20 lab1 = new Variant20();
 
     public void doInputOutputTask() {
-        Point pointA = new Point();
-        Point pointB = new Point();
+        Point pointA = new Point(0,0);
+        Point pointB = new Point(0,0);
         out.println("Enter point for 'InputTask': ");
         pointA.setX(scan.nextDouble());
         pointA.setY(scan.nextDouble());
@@ -30,8 +30,11 @@ public class Controller {
     }
 
     public void doIfTask() {
+
         out.println("Enter coordinate of points A, B, C: ");
-        out.println("Shortest distance to point A:" + lab1.ifTask(scan.nextDouble(), scan.nextDouble(), scan.nextDouble()));
+        Point point = lab1.ifTask(scan.nextDouble(), scan.nextDouble(), scan.nextDouble());
+        out.println("Shortest distance to point A:"
+                + point.getY() + "Nearest point:" + point.getX());
     }
 
     public void doBooleanTask() {
