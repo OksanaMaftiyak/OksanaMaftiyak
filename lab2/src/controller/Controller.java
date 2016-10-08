@@ -13,10 +13,7 @@ import validator.BookValidator;
 import validator.EmployeeValidator;
 import validator.ValidatorException;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Controller {
 
@@ -111,6 +108,7 @@ public class Controller {
         }
     }
 
+
     public void run() {
         Library library = Library.getLibrary();
 
@@ -139,7 +137,7 @@ public class Controller {
         for (int i = 0; i < 3; i++) {
             Abonent abonent = promptAbonent();
             try {
-                abonentValidator.valiate(abonent);
+                abonentValidator.validate(abonent);
                 abonentService.addAbonent(abonent);
                 break;
             } catch (ValidatorException e) {
