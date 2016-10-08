@@ -1,7 +1,7 @@
-package service;
+package omaftiyak.javacourse.lab2.service;
 
-import model.Employee;
-import model.Library;
+import omaftiyak.javacourse.lab2.model.Employee;
+import omaftiyak.javacourse.lab2.model.Library;
 
 /**
  * Service to manage employees

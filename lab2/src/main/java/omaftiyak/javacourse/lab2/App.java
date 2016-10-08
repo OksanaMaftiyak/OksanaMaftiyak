@@ -1,4 +1,6 @@
-import controller.Controller;
+package omaftiyak.javacourse.lab2;
+
+import omaftiyak.javacourse.lab2.controller.Controller;
 
 public class App {
 

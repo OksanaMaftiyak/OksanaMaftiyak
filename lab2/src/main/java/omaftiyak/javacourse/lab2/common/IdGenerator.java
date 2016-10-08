@@ -1,4 +1,4 @@
-package common;
+package omaftiyak.javacourse.lab2.common;
 
 public class IdGenerator {
 

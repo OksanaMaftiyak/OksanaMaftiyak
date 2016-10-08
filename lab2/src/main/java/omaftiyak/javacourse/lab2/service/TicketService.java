@@ -1,9 +1,9 @@
-package service;
+package omaftiyak.javacourse.lab2.service;
 
-import model.Abonent;
-import model.Book;
-import model.Library;
-import model.Ticket;
+import omaftiyak.javacourse.lab2.model.Abonent;
+import omaftiyak.javacourse.lab2.model.Book;
+import omaftiyak.javacourse.lab2.model.Library;
+import omaftiyak.javacourse.lab2.model.Ticket;
 
 import java.util.Calendar;
 

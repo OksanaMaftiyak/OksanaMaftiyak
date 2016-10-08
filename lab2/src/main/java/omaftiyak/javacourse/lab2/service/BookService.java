@@ -1,8 +1,8 @@
-package service;
+package omaftiyak.javacourse.lab2.service;
 
-import model.Book;
-import model.Library;
-import model.Ticket;
+import omaftiyak.javacourse.lab2.model.Book;
+import omaftiyak.javacourse.lab2.model.Library;
+import omaftiyak.javacourse.lab2.model.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
-package model;
+package omaftiyak.javacourse.lab2.model;
 
-import common.IdGenerator;
+import omaftiyak.javacourse.lab2.common.IdGenerator;
 
 import java.util.Objects;
 

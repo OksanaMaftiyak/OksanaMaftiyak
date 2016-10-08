@@ -1,17 +1,17 @@
-package controller;
+package omaftiyak.javacourse.lab2.controller;
 
-import model.Abonent;
-import model.Book;
-import model.Employee;
-import model.Library;
-import service.AbonentService;
-import service.BookService;
-import service.EmployeeService;
-import service.TicketService;
-import validator.AbonentValidator;
-import validator.BookValidator;
-import validator.EmployeeValidator;
-import validator.ValidatorException;
+import omaftiyak.javacourse.lab2.model.Abonent;
+import omaftiyak.javacourse.lab2.model.Book;
+import omaftiyak.javacourse.lab2.model.Employee;
+import omaftiyak.javacourse.lab2.model.Library;
+import omaftiyak.javacourse.lab2.service.AbonentService;
+import omaftiyak.javacourse.lab2.service.BookService;
+import omaftiyak.javacourse.lab2.service.EmployeeService;
+import omaftiyak.javacourse.lab2.service.TicketService;
+import omaftiyak.javacourse.lab2.validator.AbonentValidator;
+import omaftiyak.javacourse.lab2.validator.BookValidator;
+import omaftiyak.javacourse.lab2.validator.EmployeeValidator;
+import omaftiyak.javacourse.lab2.validator.ValidatorException;
 
 import java.util.*;
 

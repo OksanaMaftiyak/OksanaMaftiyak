@@ -1,6 +1,6 @@
-package validator;
+package omaftiyak.javacourse.lab2.validator;
 
-import model.Employee;
+import omaftiyak.javacourse.lab2.model.Employee;
 
 import java.util.Calendar;
 

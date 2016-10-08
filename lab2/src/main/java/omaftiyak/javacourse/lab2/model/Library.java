@@ -1,4 +1,4 @@
-package model;
+package omaftiyak.javacourse.lab2.model;
 
 import java.util.ArrayList;
 import java.util.List;
