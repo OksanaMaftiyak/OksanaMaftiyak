@@ -25,7 +25,7 @@ public class BookValidator {
         if (book.getYearPublication() < 1000 || book.getYearPublication() > Calendar.getInstance().get(Calendar.YEAR)) {
             throw new ValidatorException("Year of publication should be between 1000 and this year");
         }
-        if (book.getAuthor() == null || !book.getAuthor().matches("[A-Z][a-z]*(\\s[A-Z][a-z]*)?")) {
+        if (book.getAuthor() == null || !book.getAuthor().matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)\\s?[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
             throw new ValidatorException("Author names should begin with upper case character");
         }
 
