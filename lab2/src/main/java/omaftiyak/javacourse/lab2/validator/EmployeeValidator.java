@@ -10,9 +10,9 @@ public class EmployeeValidator {
 
     public void validate(Employee employee) throws ValidatorException {
         List<String> errors = new ArrayList<>();
-        validateString(employee.getFirstName(), 64, "first name",errors);
-        validateString(employee.getLastName(), 256, "last name",errors);
-        validateString(employee.getPosition(), 1024, "position",errors);
+        validateString(employee.getFirstName(), 32, "first name",errors);
+        validateString(employee.getLastName(), 32, "last name",errors);
+        validateString(employee.getPosition(), 32, "position",errors);
         if (employee.getYearBirth() < 1900 || employee.getYearBirth() > Calendar.getInstance().get(Calendar.YEAR) - 18) {
             errors.add("Year of publication should be between 1000 and this year");
         }
