@@ -19,10 +19,10 @@ public class BookValidator {
      */
     public void validate(Book book) throws ValidatorException {
         List<String> errors = new ArrayList<>();
-        validateString(book.getAuthor(), 64, "author", errors);
-        validateString(book.getBookTitle(), 256, "title", errors);
-        validateString(book.getDescription(), 1024, "description", errors);
-        validateString(book.getGenre(), 64, "genre", errors);
+        validateString(book.getAuthor(), 32, "author", errors);
+        validateString(book.getBookTitle(), 32, "title", errors);
+        validateString(book.getDescription(), 32, "description", errors);
+        validateString(book.getGenre(), 32, "genre", errors);
         validateString(book.getLanguage(), 32, "language", errors);
         if (book.getYearPublication() < 1000 || book.getYearPublication() > Calendar.getInstance().get(Calendar.YEAR)) {
             errors.add("Year of publication should be between 1000 and this year");

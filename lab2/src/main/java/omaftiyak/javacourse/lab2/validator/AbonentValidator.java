@@ -12,8 +12,8 @@ public class AbonentValidator {
 
         public void validate(Abonent abonent) throws ValidatorException {
             List<String> errors = new ArrayList<>();
-            validateString(abonent.getFirstName(), 64, "first name",errors);
-            validateString(abonent.getLastName(), 64, "last name",errors);
+            validateString(abonent.getFirstName(), 32, "first name",errors);
+            validateString(abonent.getLastName(), 32, "last name",errors);
             if (abonent.getYearBirth() > Calendar.getInstance().get(Calendar.YEAR) -2 ||
                     abonent.getYearBirth() < Calendar.getInstance().get(Calendar.YEAR)-100) {
                 errors.add("Year birth should be between 105 and 3 years");
