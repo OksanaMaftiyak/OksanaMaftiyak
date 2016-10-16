@@ -13,7 +13,10 @@ import omaftiyak.javacourse.lab2.validator.BookValidator;
 import omaftiyak.javacourse.lab2.validator.EmployeeValidator;
 import omaftiyak.javacourse.lab2.validator.ValidatorException;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 
 public class Controller {
 
@@ -30,14 +33,14 @@ public class Controller {
     Scanner scanner = new Scanner(System.in);
     private static int nextId = 1;
 
-    private Book promptBook() {
+    private String[] promptBook() {
         String title = promptString("Enter title of book:");
         String name = promptString("Enter author`s name:");
-        int year = promptInt("Enter year publication:");
+        String year = promptString("Enter year publication:");
         String language = promptString("Enter language of book:");
         String description = promptString("Enter description of book:");
         String genre = promptString("Enter genre of book:");
-        return new Book(year, name, title, description, language, genre);
+        return new String[]{year, name, title, description, language, genre};
     }
 
     private void takeBook() {
@@ -47,20 +50,20 @@ public class Controller {
         ticketService.takeBook(bookId, userId, pay);
     }
 
-    private Employee promptEmployee() {
+    private String[] promptEmployee() {
         String firstName = promptString("Enter first name of employee:");
         String lastName = promptString("Enter last name of employee");
-        int year = promptInt("Enter year of birth:");
+        String year = promptString("Enter year of birth:");
         String position = promptString("Enter position of employee:");
-        int salary = promptInt("Enter salary of employee:");
-        return new Employee(firstName, lastName, position, year, salary);
+        String salary = promptString("Enter salary of employee:");
+        return new String[]{firstName, lastName, position, year, salary};
     }
 
-    private Abonent promptAbonent() {
+    private String[] promptAbonent() {
         String firstName = promptString("Enter first name of abonent:");
         String lastName = promptString("Enter last name of abonent");
-        int yearOfBirth = promptInt("Enter year of birth:");
-        return new Abonent(firstName, lastName, yearOfBirth);
+        String yearOfBirth = promptString("Enter year of birth:");
+        return new String[]{firstName,lastName,yearOfBirth};
     }
 
     private void printBooksByYear(Library library) {
@@ -113,10 +116,10 @@ public class Controller {
         Library library = Library.getLibrary();
 
         for (int i = 0; i < 3; i++) {
-            Book book = promptBook();
+            String[] book = promptBook();
             try {
                 bookValidator.validate(book);
-                bookService.addBook(book);
+                bookService.addBook(new Book(book));
                 break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());
@@ -124,10 +127,10 @@ public class Controller {
         }
 
         for (int i = 0; i < 3; i++) {
-            Employee employee = promptEmployee();
+            String[] employee = promptEmployee();
             try {
                 employeeValidator.validate(employee);
-                employeeService.addEmployee(employee);
+                employeeService.addEmployee(new Employee(employee));
                 break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());
@@ -135,10 +138,10 @@ public class Controller {
         }
 
         for (int i = 0; i < 3; i++) {
-            Abonent abonent = promptAbonent();
+            String[] abonent = promptAbonent();
             try {
                 abonentValidator.validate(abonent);
-                abonentService.addAbonent(abonent);
+                abonentService.addAbonent(new Abonent(abonent));
                 break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());

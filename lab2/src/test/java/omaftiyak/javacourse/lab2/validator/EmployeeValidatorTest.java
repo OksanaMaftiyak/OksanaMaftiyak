@@ -1,6 +1,5 @@
 package omaftiyak.javacourse.lab2.validator;
 
-import omaftiyak.javacourse.lab2.model.Employee;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +18,12 @@ public class EmployeeValidatorTest {
 
     @Test(expected = ValidatorException.class)
     public void testValidate_exceptionIsThrown() throws ValidatorException {
-        validator.validate(new String[]{"", "", "", "0"});
+        validator.validate(new String[]{"", "", "", "0", "100"});
     }
 
     @Test
     public void testValidate_validEmployee() throws ValidatorException {
-        validator.validate(new String[]{"Maftiyak-Melnitshuk", "Oksana", "student", "1997"});
+        validator.validate(new String[]{"Maftiyak-Melnitshuk", "Oksana", "student", "1997", "10000"});
     }
 
     @Test
@@ -32,7 +31,7 @@ public class EmployeeValidatorTest {
         ValidatorException exception = null;
         try {
             validator.validate(new String[]{"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","2017"});
+                    "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "2017", "10000001"});
             Assert.fail("Employee is not valid. So validator should throw exception");
         } catch (ValidatorException e) {
             exception = e;
@@ -41,7 +40,8 @@ public class EmployeeValidatorTest {
         Assert.assertEquals(Arrays.asList("first name should be provided and length less than 32",
                 "last name should be provided and length less than 32",
                 "position should be provided and length less than 32",
-                "Year of publication should be between 1000 and this year"),
+                "Year of publication should be between 1000 and this year",
+                "Salary is less then 100 and greater then 1000000"),
                 exception.getErrors());
     }
 

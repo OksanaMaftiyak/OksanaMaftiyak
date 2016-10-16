@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Validator for books
  */
-public class BookValidator {
+public class BookValidator implements Validator<Book> {
 
     /**
      * Validates provided book
@@ -17,6 +17,7 @@ public class BookValidator {
      * @param   parts of book to be validated
      * @throws ValidatorException in the case book is null or provided book is not valid
      */
+    @Override
     public void validate(String []parts) throws ValidatorException {
         List<String> errors = new ArrayList<>();
         if (parts.length != 6) {

@@ -25,7 +25,9 @@ public class Employee {
     }
 
     public Employee(String str) {
-        String[] parts = str.split("\\s");
+        this(str.split("|"));
+    }
+    public Employee(String[]parts){
         int fieldIndex = 0;
         this.id = Integer.parseInt(parts[fieldIndex++]);
         this.firstName = parts[fieldIndex++];

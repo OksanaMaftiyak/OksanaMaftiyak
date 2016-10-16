@@ -42,7 +42,10 @@ public class Book {
     }
 
     private Book(String str) {
-        String[] parts = str.split("\\s");
+        this(str.split("|"));
+    }
+
+    public Book(String[] parts) {
         int fieldIndex = 0;
         this.id = Integer.parseInt(parts[fieldIndex++]);
         this.bookTitle = parts[fieldIndex++];
