@@ -2,6 +2,7 @@ package lab1;
 
 import java.util.Objects;
 
+
 public class Variant20 {
 
     public enum Zodiaс {

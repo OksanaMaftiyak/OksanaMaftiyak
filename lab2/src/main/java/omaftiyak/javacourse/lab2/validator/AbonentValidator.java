@@ -10,18 +10,32 @@ public class AbonentValidator {
 
 
 
-        public void validate(Abonent abonent) throws ValidatorException {
+        public void validate(String[] parts) throws ValidatorException {
             List<String> errors = new ArrayList<>();
-            validateString(abonent.getFirstName(), 32, "first name",errors);
-            validateString(abonent.getLastName(), 32, "last name",errors);
-            if (abonent.getYearBirth() > Calendar.getInstance().get(Calendar.YEAR) -2 ||
-                    abonent.getYearBirth() < Calendar.getInstance().get(Calendar.YEAR)-100) {
-                errors.add("Year birth should be between 105 and 3 years");
+            if (parts.length != 3) {
+                throw new ValidatorException("Invalid line format");
             }
-            if (abonent.getFirstName() == null || !abonent.getFirstName().matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
+            int index = 0;
+            int firstNameIndex = index++;
+            int lastNameIndex = index++;
+            int dateIndex = index++;
+            validateString(parts[firstNameIndex], 32, "first name",errors);
+            validateString(parts[lastNameIndex], 32, "last name",errors);
+            try {
+                int birthYear = Integer.parseInt(parts[dateIndex]);
+                if (birthYear> Calendar.getInstance().get(Calendar.YEAR) -2 ||
+                        birthYear < Calendar.getInstance().get(Calendar.YEAR)-100) {
+                    errors.add("Year birth should be between 105 and 3 years");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                errors.add("Invalid characters in year of birth");
+            }
+
+            if (parts[firstNameIndex] == null || !parts[firstNameIndex].matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
                 errors.add("Invalid first name");
             }
-            if (abonent.getLastName() == null || !abonent.getLastName().matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
+            if (parts[lastNameIndex] == null || !parts[lastNameIndex].matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
                 errors.add("Invalid last name");
             }
             if (!errors.isEmpty()) {

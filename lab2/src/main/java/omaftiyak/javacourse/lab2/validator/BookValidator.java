@@ -14,20 +14,38 @@ public class BookValidator {
     /**
      * Validates provided book
      *
-     * @param book book to be validated
+     * @param   parts of book to be validated
      * @throws ValidatorException in the case book is null or provided book is not valid
      */
-    public void validate(Book book) throws ValidatorException {
+    public void validate(String []parts) throws ValidatorException {
         List<String> errors = new ArrayList<>();
-        validateString(book.getAuthor(), 32, "author", errors);
-        validateString(book.getBookTitle(), 32, "title", errors);
-        validateString(book.getDescription(), 32, "description", errors);
-        validateString(book.getGenre(), 32, "genre", errors);
-        validateString(book.getLanguage(), 32, "language", errors);
-        if (book.getYearPublication() < 1000 || book.getYearPublication() > Calendar.getInstance().get(Calendar.YEAR)) {
-            errors.add("Year of publication should be between 1000 and this year");
+        if (parts.length != 6) {
+            throw new ValidatorException("Invalid line format");
         }
-        if (book.getAuthor() == null || !book.getAuthor().matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)\\s?[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
+        int index=0;
+        int authorIndex=index++;
+        int titleIndex=index++;
+        int descriptionIndex=index++;
+        int genreIndex=index++;
+        int languageIndex=index++;
+        int yearOfPublicationIndex=index++;
+
+        validateString(parts[authorIndex], 32, "author", errors);
+        validateString(parts[titleIndex], 32, "title", errors);
+        validateString(parts[descriptionIndex], 32, "description", errors);
+        validateString(parts[genreIndex], 32, "genre", errors);
+        validateString(parts[languageIndex], 32, "language", errors);
+
+        try {
+            int yearOfPublication = Integer.parseInt(parts[yearOfPublicationIndex]);
+            if (yearOfPublication < 1000 || yearOfPublication > Calendar.getInstance().get(Calendar.YEAR) ) {
+                errors.add("Year of publication should be between 1000 and this year");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            errors.add("Invalid characters in year of publication");
+        }
+        if (parts[authorIndex] == null || !parts[authorIndex].matches("[A-Z][a-z]+-?([A-Z]?[a-z]*)\\s?[A-Z][a-z]+-?([A-Z]?[a-z]*)")) {
             errors.add("Author names should begin with upper case character");
         }
         if (!errors.isEmpty()) {

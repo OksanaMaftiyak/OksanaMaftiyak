@@ -20,24 +20,25 @@ public class BookValidatorTest {
 
     @Test(expected = ValidatorException.class)
     public void testValidate_exceptionIsThrown() throws ValidatorException {
-        validator.validate(new Book(2027,"","","","",""));
+        validator.validate(new String[]{"","","","","","2027"});
     }
 
     @Test
     public void testValidate_validEmployee() throws ValidatorException {
-        validator.validate(new Book(1001,"Joan Rowling", "Harry Potter", "bla-bla-bla", "english","fantasy"));
+        validator.validate(new String[]{"Joan Rowling", "Harry Potter", "bla-bla-bla", "english","fantasy","1001"});
     }
 
     @Test
     public void testValidate_allErrors() {
         ValidatorException exception = null;
         try {
-            validator.validate(new Book(50,"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            validator.validate(new String[]{"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                     "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+                    "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","50"});
             Assert.fail("Employee is not valid. So validator should throw exception");
         } catch (ValidatorException e) {
             exception = e;
+
         }
         Assert.assertNotNull("Exception should be thrown", exception);
         Assert.assertEquals(Arrays.asList("author should be provided and length less than 32",

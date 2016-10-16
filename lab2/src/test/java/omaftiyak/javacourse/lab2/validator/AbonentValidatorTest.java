@@ -20,19 +20,20 @@ public class AbonentValidatorTest {
 
     @Test(expected = ValidatorException.class)
     public void testValidate_exceptionIsThrown() throws ValidatorException {
-        validator.validate(new Abonent("", "", 0));
+
+        validator.validate(new String[]{"", "", "0"});
     }
 
     @Test
     public void testValidate_validAbonent() throws ValidatorException {
-        validator.validate(new Abonent("Maftiyak-Melnitshuk", "Oksana",  1997));
+        validator.validate(new String[]{"Maftiyak-Melnitshuk", "Oksana", "1997"});
     }
 
     @Test
     public void testValidate_allErrors() {
         ValidatorException exception = null;
         try {
-            validator.validate(new Abonent("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 2017));
+            validator.validate(new String[]{"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "2017"});
             Assert.fail("Employee is not valid. So validator should throw exception");
         } catch (ValidatorException e) {
             exception = e;
