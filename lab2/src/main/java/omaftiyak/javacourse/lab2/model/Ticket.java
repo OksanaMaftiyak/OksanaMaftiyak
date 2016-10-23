@@ -39,6 +39,9 @@ public class Ticket {
         this.pay = Integer.parseInt(parts[fieldIndex++]);
     }
 
+    public Ticket() {
+    }
+
     public int getId() {
         return id;
     }

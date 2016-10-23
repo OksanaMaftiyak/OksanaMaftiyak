@@ -12,7 +12,7 @@ public class AbonentValidator implements Validator<Abonent>{
 
         public void validate(String[] parts) throws ValidatorException {
             List<String> errors = new ArrayList<>();
-            if (parts.length != 3) {
+            if (!(parts.length ==3)) {
                 throw new ValidatorException("Invalid line format");
             }
             int index = 0;

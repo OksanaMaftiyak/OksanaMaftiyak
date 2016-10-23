@@ -25,16 +25,25 @@ public class Employee {
     }
 
     public Employee(String str) {
-        this(str.split("|"));
+        this(str.split("/"));
     }
+
     public Employee(String[]parts){
         int fieldIndex = 0;
-        this.id = Integer.parseInt(parts[fieldIndex++]);
+        this.id = getId();
         this.firstName = parts[fieldIndex++];
         this.lastName = parts[fieldIndex++];
         this.position = parts[fieldIndex++];
         this.yearBirth = Integer.parseInt(parts[fieldIndex++]);
         this.salary = Integer.parseInt(parts[fieldIndex++]);
+    }
+
+
+    public String[] getParts() {
+        return new String[]{firstName, lastName, position, String.valueOf(yearBirth), String.valueOf(salary)};
+    }
+
+    public Employee() {
     }
 
     public int getId() {
@@ -86,15 +95,15 @@ public class Employee {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Employee employee = (Employee) obj;
-        return id == employee.id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return yearBirth == employee.yearBirth &&
+                salary == employee.salary &&
+                Objects.equals(firstName, employee.firstName) &&
+                Objects.equals(lastName, employee.lastName) &&
+                Objects.equals(position, employee.position);
     }
 
     @Override
@@ -115,4 +124,5 @@ public class Employee {
         sb.append("]");
         return sb.toString();
     }
+
 }

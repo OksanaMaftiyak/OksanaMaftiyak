@@ -5,7 +5,7 @@ import omaftiyak.javacourse.lab2.validator.BookValidator;
 import omaftiyak.javacourse.lab2.validator.ValidatorException;
 
 
-public class BookParser extends Parser<Book> {
+class BookParser extends Parser<Book> {
     protected BookParser() {
         super(new BookValidator());
     }
@@ -13,6 +13,11 @@ public class BookParser extends Parser<Book> {
     @Override
     protected Book build(String[] parts) {
         return new Book(parts);
+    }
+
+    @Override
+    public String[] getParts(Book model) {
+        return model.getParts();
     }
 
     @Override

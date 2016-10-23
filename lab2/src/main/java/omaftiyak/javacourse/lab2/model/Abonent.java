@@ -26,10 +26,18 @@ public class Abonent implements Comparable<Abonent> {
 
     public Abonent(String[] parts) {
         int fieldIndex = 0;
-        this.id = Integer.parseInt(parts[fieldIndex++]);
+        this.id = ID_GENERATOR.nextId();
         this.firstName = parts[fieldIndex++];
         this.lastName = parts[fieldIndex++];
         this.yearBirth = Integer.parseInt(parts[fieldIndex++]);
+    }
+
+
+    public String[] getParts() {
+        return new String[]{firstName, lastName, String.valueOf(yearBirth)};
+    }
+
+    public Abonent() {
     }
 
     @Override
@@ -78,7 +86,7 @@ public class Abonent implements Comparable<Abonent> {
             return false;
         }
         Abonent abonent = (Abonent) obj;
-        return id == abonent.id;
+        return (firstName.equals(abonent.firstName) && lastName.equals(abonent.lastName) && yearBirth == abonent.yearBirth);
     }
 
     @Override
@@ -97,4 +105,5 @@ public class Abonent implements Comparable<Abonent> {
         sb.append("]");
         return sb.toString();
     }
+
 }

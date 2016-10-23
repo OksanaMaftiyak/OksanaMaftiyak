@@ -42,18 +42,22 @@ public class Book {
     }
 
     private Book(String str) {
-        this(str.split("|"));
+        this(str.split("/"));
     }
 
     public Book(String[] parts) {
         int fieldIndex = 0;
-        this.id = Integer.parseInt(parts[fieldIndex++]);
+        this.id = getId();
         this.bookTitle = parts[fieldIndex++];
         this.author = parts[fieldIndex++];
-        this.yearPublication = Integer.parseInt(parts[fieldIndex++]);
         this.language = parts[fieldIndex++];
         this.description = parts[fieldIndex++];
         this.genre = parts[fieldIndex++];
+        this.yearPublication = Integer.parseInt(parts[fieldIndex++]);
+    }
+
+    public String[] getParts() {
+        return new String[]{bookTitle, author, language, description, genre, String.valueOf(yearPublication)};
     }
 
     public static Comparator<Book> YearComparator = new Comparator<Book>() {
@@ -140,15 +144,16 @@ public class Book {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Book book = (Book) obj;
-        return id == book.id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return yearPublication == book.yearPublication &&
+                Objects.equals(bookTitle, book.bookTitle) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(genre, book.genre) &&
+                Objects.equals(description, book.description) &&
+                Objects.equals(language, book.language);
     }
 
     @Override

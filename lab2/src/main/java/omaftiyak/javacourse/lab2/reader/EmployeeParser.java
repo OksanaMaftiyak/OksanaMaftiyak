@@ -6,7 +6,7 @@ import omaftiyak.javacourse.lab2.validator.Validator;
 import omaftiyak.javacourse.lab2.validator.ValidatorException;
 
 
-public class EmployeeParser extends Parser<Employee> {
+class EmployeeParser extends Parser<Employee> {
 
     protected EmployeeParser() {
         super(new EmployeeValidator());
@@ -21,4 +21,10 @@ public class EmployeeParser extends Parser<Employee> {
     protected Employee build(String[] parts) {
         return new Employee(parts);
     }
+
+    @Override
+    public String[] getParts(Employee model) {
+        return model.getParts();
+    }
+
 }
