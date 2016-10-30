@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EmployeeValidator implements Validator<Employee>{
     @Override
-    public void validate(String[] parts) throws ValidatorException {
+    public boolean validate(String[] parts) throws ValidatorException {
         List<String> errors = new ArrayList<>();
         if (parts.length != 5) {
             throw new ValidatorException("Invalid line format");
@@ -49,7 +49,7 @@ public class EmployeeValidator implements Validator<Employee>{
         }
         if (!errors.isEmpty()) {
             throw new ValidatorException(errors);
-        }
+        }else return true;
     }
 
     private void validateString(String string, int maxLength, String fieldName,List<String> errors) {

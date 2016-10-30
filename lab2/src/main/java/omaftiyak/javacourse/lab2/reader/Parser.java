@@ -14,8 +14,8 @@ abstract class Parser<T> {
 
     public T parse(String input) throws ValidatorException {
         String[] parts = input.split(SEPARATOR);
-        validator.validate(parts);
-        return build(parts);
+       if(validator.validate(parts)){
+        return build(parts);}else return null;
     }
 
     protected abstract T build(String[] parts);

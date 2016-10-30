@@ -18,7 +18,7 @@ public class BookValidator implements Validator<Book> {
      * @throws ValidatorException in the case book is null or provided book is not valid
      */
     @Override
-    public void validate(String []parts) throws ValidatorException {
+    public boolean validate(String []parts) throws ValidatorException {
         List<String> errors = new ArrayList<>();
         if (parts.length != 6) {
             throw new ValidatorException("Invalid line format");
@@ -51,7 +51,7 @@ public class BookValidator implements Validator<Book> {
         }
         if (!errors.isEmpty()) {
             throw new ValidatorException(errors);
-        }
+        }else return true;
     }
 
     /**
