@@ -2,7 +2,8 @@ package omaftiyak.javacourse.lab2.model;
 
 import omaftiyak.javacourse.lab2.common.IdGenerator;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 
@@ -11,13 +12,13 @@ public class Ticket {
     private int id;
     private int userId;
     private int bookId;
-    private Calendar dateTaking;
-    private Calendar dateReturning;
+    private LocalDateTime dateTaking;
+    private LocalDateTime dateReturning;
     private int pay;
 
     private static final IdGenerator ID_GENERATOR = new IdGenerator();
 
-    public Ticket(int bookId, int userId, Calendar dateTaking, Calendar dateReturning, int pay) {
+    public Ticket(int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
         this.id = ID_GENERATOR.nextId();
         this.bookId = bookId;
         this.userId = userId;
@@ -32,10 +33,8 @@ public class Ticket {
         this.id = Integer.parseInt(parts[fieldIndex++]);
         this.bookId = Integer.parseInt(parts[fieldIndex++]);
         this.userId = Integer.parseInt(parts[fieldIndex++]);
-        this.dateTaking = Calendar.getInstance();
-        this.dateTaking.setTimeInMillis(Long.parseLong(parts[fieldIndex++]));
-        this.dateReturning = Calendar.getInstance();
-        this.dateReturning.setTimeInMillis(Long.parseLong(parts[fieldIndex++]));
+        this.dateTaking = LocalDateTime.ofEpochSecond(Long.parseLong(parts[fieldIndex++]), 0, ZoneOffset.UTC);
+        this.dateReturning = LocalDateTime.ofEpochSecond(Long.parseLong(parts[fieldIndex++]), 0, ZoneOffset.UTC);
         this.pay = Integer.parseInt(parts[fieldIndex++]);
     }
 
@@ -66,19 +65,19 @@ public class Ticket {
         this.bookId = bookId;
     }
 
-    public Calendar getDateTaking() {
+    public LocalDateTime getDateTaking() {
         return dateTaking;
     }
 
-    public void setDateTaking(Calendar dateTaking) {
+    public void setDateTaking(LocalDateTime dateTaking) {
         this.dateTaking = dateTaking;
     }
 
-    public Calendar getDateReturning() {
+    public LocalDateTime getDateReturning() {
         return dateReturning;
     }
 
-    public void setDateReturning(Calendar dateReturning) {
+    public void setDateReturning(LocalDateTime dateReturning) {
         this.dateReturning = dateReturning;
     }
 

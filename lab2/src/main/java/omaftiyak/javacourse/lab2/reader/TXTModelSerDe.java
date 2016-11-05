@@ -17,7 +17,20 @@ class TXTModelSerDe<T> implements ModelSerDe<T> {
     @Override
     public List<T> read(String filePath) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-        return doRead(bufferedReader);
+        List<T> result = new ArrayList<>();
+        do {
+            String line = bufferedReader.readLine();
+            if (line == null) {
+                break;
+            }
+            try {
+                result.add(parser.parse(line));
+            } catch (ValidatorException e) {
+                e.printStackTrace();
+                continue;
+            }
+        } while (true);
+        return result;
     }
 
     @Override
@@ -36,21 +49,5 @@ class TXTModelSerDe<T> implements ModelSerDe<T> {
         writer.close();
     }
 
-    private List<T> doRead(BufferedReader bufferedReader) throws IOException {
-        List<T> result = new ArrayList<>();
-        do {
-            String line = bufferedReader.readLine();
-            if (line == null) {
-                break;
-            }
-            try {
-                result.add(parser.parse(line));
-            } catch (ValidatorException e) {
-                e.printStackTrace();
-                continue;
-            }
-        } while (true);
-        return result;
-    }
 
 }

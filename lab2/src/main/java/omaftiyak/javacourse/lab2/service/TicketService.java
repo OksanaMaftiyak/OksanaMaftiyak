@@ -5,7 +5,7 @@ import omaftiyak.javacourse.lab2.model.Book;
 import omaftiyak.javacourse.lab2.model.Library;
 import omaftiyak.javacourse.lab2.model.Ticket;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 /**
  * Service to manage tickets
@@ -31,7 +31,7 @@ public class TicketService {
         if (abonent == null) {
             throw new IllegalArgumentException("Abonent not found");
         }
-        Ticket ticket = new Ticket(book.getId(), abonent.getId(), Calendar.getInstance(), null, pay);
+        Ticket ticket = new Ticket(book.getId(), abonent.getId(), LocalDateTime.now(), null, pay);
         Library.getLibrary().getTickets().add(ticket);
     }
 
@@ -46,7 +46,7 @@ public class TicketService {
         if (ticket == null) {
             throw new IllegalArgumentException("For provided book id there is no any open tickets");
         }
-        ticket.setDateReturning(Calendar.getInstance());
+        ticket.setDateReturning(LocalDateTime.now());
         Library.getLibrary().getTickets().remove(ticket);
         Library.getLibrary().getTicketHistory().add(ticket);
     }
