@@ -101,6 +101,7 @@ public class BookService {
      * @return true if book could be taken from library, otherwise - false
      */
     public boolean isBookAvailable(Book book) {
+        // todo create BookDao and query DB if book is not assigned to any open ticket
         for (Ticket ticket : Library.getLibrary().getTickets()) {
             if (ticket.getBookId() == book.getId()) {
                 return false;

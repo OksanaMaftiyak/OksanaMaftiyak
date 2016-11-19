@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Ticket {
 
-    private int id;
+    private long id;
     private int userId;
     private int bookId;
     private LocalDateTime dateTaking;
@@ -18,13 +18,17 @@ public class Ticket {
 
     private static final IdGenerator ID_GENERATOR = new IdGenerator();
 
-    public Ticket(int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
-        this.id = ID_GENERATOR.nextId();
+    public Ticket(int id, int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+        this.id = id;
         this.bookId = bookId;
         this.userId = userId;
         this.dateTaking = dateTaking;
         this.dateReturning = dateReturning;
         this.pay = pay;
+    }
+
+    public Ticket(int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+        this(ID_GENERATOR.nextId(), bookId, userId, dateTaking, dateReturning, pay);
     }
 
     public Ticket(String str) {
@@ -41,11 +45,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

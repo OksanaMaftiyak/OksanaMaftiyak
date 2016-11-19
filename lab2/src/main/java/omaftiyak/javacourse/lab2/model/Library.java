@@ -13,7 +13,6 @@ public class Library {
     private double endHour;
 
     private final List<Book> books = new ArrayList<>();
-    private final List<Ticket> ticketHistory = new ArrayList<>();
     private final List<Ticket> tickets = new ArrayList<>();
     private final List<Employee> employees = new ArrayList<>();
     private final List<Abonent> abonents = new ArrayList<>();
@@ -56,10 +55,10 @@ public class Library {
         return books;
     }
 
-    public List<Ticket> getTicketHistory() {
-        return ticketHistory;
-    }
-
+    /**
+     * Deprecated - please use TicketDao
+     */
+    @Deprecated
     public List<Ticket> getTickets() {
         return tickets;
     }
@@ -97,7 +96,6 @@ public class Library {
         sb.append(", startHour: ").append(startHour);
         sb.append(", endHour: ").append(endHour);
         sb.append(", books: ").append(books.size());
-        sb.append(", ticketHistory: ").append(ticketHistory.size());
         sb.append(", tickets: ").append(tickets.size());
         sb.append(", employees: ").append(employees.size());
         sb.append(", abonents: ").append(abonents.size());
