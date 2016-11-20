@@ -2,10 +2,7 @@ package omaftiyak.javacourse.lab2.dao;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -35,6 +32,17 @@ public class ConnectionFactory {
 
     public static Connection getCon() throws SQLException {
         return getInstance().getConnection();
+    }
+
+    public static long getLastId(Connection connection) {
+        try (PreparedStatement ps = connection.prepareStatement("select lastval()")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getLong(1);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not get last id", e);
+        }
     }
 
     public Connection getConnection() throws SQLException {

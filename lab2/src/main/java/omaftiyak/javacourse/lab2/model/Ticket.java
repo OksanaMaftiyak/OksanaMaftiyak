@@ -11,14 +11,14 @@ public class Ticket {
 
     private long id;
     private int userId;
-    private int bookId;
+    private long bookId;
     private LocalDateTime dateTaking;
     private LocalDateTime dateReturning;
     private int pay;
 
     private static final IdGenerator ID_GENERATOR = new IdGenerator();
 
-    public Ticket(int id, int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+    public Ticket(int id, long bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
         this.id = id;
         this.bookId = bookId;
         this.userId = userId;
@@ -27,7 +27,7 @@ public class Ticket {
         this.pay = pay;
     }
 
-    public Ticket(int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+    public Ticket(long bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
         this(ID_GENERATOR.nextId(), bookId, userId, dateTaking, dateReturning, pay);
     }
 
@@ -61,7 +61,7 @@ public class Ticket {
         this.userId = userId;
     }
 
-    public int getBookId() {
+    public long getBookId() {
         return bookId;
     }
 

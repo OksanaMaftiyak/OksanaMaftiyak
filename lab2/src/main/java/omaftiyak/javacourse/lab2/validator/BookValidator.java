@@ -33,7 +33,7 @@ public class BookValidator implements Validator<Book> {
 
         validateString(parts[authorIndex], 32, "author", errors);
         validateString(parts[titleIndex], 32, "title", errors);
-        validateString(parts[descriptionIndex], 32, "description", errors);
+        validateString(parts[descriptionIndex], 1024, "description", errors);
         validateString(parts[genreIndex], 32, "genre", errors);
         validateString(parts[languageIndex], 32, "language", errors);
 

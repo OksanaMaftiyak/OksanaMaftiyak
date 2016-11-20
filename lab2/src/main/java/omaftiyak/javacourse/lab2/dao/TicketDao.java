@@ -5,12 +5,13 @@ import omaftiyak.javacourse.lab2.model.Ticket;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 /**
  * Provides access to tickets storage
  */
 public class TicketDao implements Dao<Ticket> {
-    //add,persist
+
     @Override
     public void persist(Ticket ticket) {
         try (Connection connection = ConnectionFactory.getCon()) {
@@ -18,12 +19,12 @@ public class TicketDao implements Dao<Ticket> {
                     "insert into tickets (book_id, abonent_id, pay, date_taking, date_returning) values (?, ?, ?, ?, null)",
                     Statement.RETURN_GENERATED_KEYS
             )) {
-                ps.setInt(1, ticket.getBookId());
+                ps.setLong(1, ticket.getBookId());
                 ps.setInt(2, ticket.getUserId());
                 ps.setInt(3, ticket.getPay());
                 ps.setTimestamp(4, Timestamp.valueOf(ticket.getDateTaking()));
                 ps.execute();
-                ticket.setId(getLastId(connection));
+                ticket.setId(ConnectionFactory.getLastId(connection));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Could not persist ticket", e);
@@ -58,9 +59,9 @@ public class TicketDao implements Dao<Ticket> {
                         ticket.setUserId(rs.getInt("abonent_id"));
                         ticket.setPay(rs.getInt("pay"));
                         ticket.setDateTaking(LocalDateTime.ofInstant(rs.getTimestamp("date_taking").toInstant(), ZoneId.systemDefault()));
-                       /* if (rs.getTimestamp("date_returning") != null) {
+                        if (rs.getTimestamp("date_returning") != null) {
                             ticket.setDateReturning(LocalDateTime.ofInstant(rs.getTimestamp("date_returning").toInstant(), ZoneId.systemDefault()));
-                        }*/
+                        }
                         return ticket;
                     } else {
                         return null;
@@ -72,15 +73,19 @@ public class TicketDao implements Dao<Ticket> {
         }
     }
 
-    private Long getLastId(Connection connection) {
-        try (PreparedStatement ps = connection.prepareStatement("select lastval()")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getLong(1);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not get last id", e);
-        }
+    @Override
+    public Ticket findById(long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Ticket> selectAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        throw new UnsupportedOperationException();
     }
 
 }

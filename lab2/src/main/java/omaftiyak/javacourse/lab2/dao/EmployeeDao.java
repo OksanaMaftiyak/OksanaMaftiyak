@@ -3,9 +3,14 @@ package omaftiyak.javacourse.lab2.dao;
 
 import omaftiyak.javacourse.lab2.model.Employee;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 public class EmployeeDao implements Dao<Employee> {
+
     @Override
     public void persist(Employee employee) {
         try (Connection connection = ConnectionFactory.getCon()) {
@@ -43,6 +48,21 @@ public class EmployeeDao implements Dao<Employee> {
         } catch (Exception e) {
             throw new RuntimeException("Could not update ticket", e);
         }
+    }
+
+    @Override
+    public Employee findById(long id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Employee> selectAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        throw new UnsupportedOperationException();
     }
 
 }

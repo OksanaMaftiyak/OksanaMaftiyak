@@ -1,25 +1,24 @@
 package omaftiyak.javacourse.lab2.service;
 
+import omaftiyak.javacourse.lab2.dao.BookDao;
 import omaftiyak.javacourse.lab2.model.Book;
-import omaftiyak.javacourse.lab2.model.Library;
-import omaftiyak.javacourse.lab2.model.Ticket;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Service to manage books
  */
 public class BookService {
 
+    private BookDao dao = new BookDao();
+
     /**
-     * Adds book to library
+     * Adds new book to library
      *
      * @param book book to add
      */
     public void addBook(Book book) {
-        Library.getLibrary().getBooks().add(book);
+        dao.persist(book);
     }
 
     /**
@@ -29,12 +28,7 @@ public class BookService {
      * @return book or null if not found
      */
     public Book findBookById(final int id) {
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (id == book.getId()) {
-                return book;
-            }
-        }
-        return null;
+        return dao.findById(id);
     }
 
     /**
@@ -44,13 +38,7 @@ public class BookService {
      * @return list with books or empty list if not found
      */
     public List<Book> findBooksByYear(int year) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (book.getYearPublication() == year) {
-                result.add(book);
-            }
-        }
-        return result;
+        return dao.findBooksByYear(year);
     }
 
     /**
@@ -59,14 +47,8 @@ public class BookService {
      * @param author author
      * @return list with books or empty list if not found
      */
-    public ArrayList<Book> findBooksByAuthor(String author) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (Objects.equals(book.getAuthor(), author)) {
-                result.add(book);
-            }
-        }
-        return result;
+    public List<Book> findBooksByAuthor(String author) {
+        return dao.findBooksByAuthor(author);
     }
 
     /**
@@ -75,14 +57,8 @@ public class BookService {
      * @param title book title
      * @return list with books or empty list if not found
      */
-    public ArrayList<Book> selectBooksByTitle(String title) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (Objects.equals(book.getBookTitle(), title)) {
-                result.add(book);
-            }
-        }
-        return result;
+    public List<Book> selectBooksByTitle(String title) {
+        return dao.selectBooksByTitle(title);
     }
 
     /**
@@ -91,7 +67,7 @@ public class BookService {
      * @return list with all books
      */
     public List<Book> selectAllBooks() {
-        return new ArrayList<>(Library.getLibrary().getBooks());
+        return dao.selectAll();
     }
 
     /**
@@ -101,13 +77,34 @@ public class BookService {
      * @return true if book could be taken from library, otherwise - false
      */
     public boolean isBookAvailable(Book book) {
-        // todo create BookDao and query DB if book is not assigned to any open ticket
-        for (Ticket ticket : Library.getLibrary().getTickets()) {
-            if (ticket.getBookId() == book.getId()) {
-                return false;
-            }
-        }
-        return true;
+        return dao.isBookAvailable(book.getId());
     }
 
+    /**
+     * Updates existing book
+     *
+     * @param book book
+     */
+    public void update(Book book) {
+        dao.update(book);
+    }
+
+    /**
+     * Deletes book by id
+     *
+     * @param id book id
+     */
+    public void delete(long id) {
+        dao.deleteById(id);
+    }
+
+    /**
+     * Finds books matching title
+     *
+     * @param title title
+     * @return list of books
+     */
+    public List<Book> findBookByTitle(String title) {
+        return dao.selectBooksByTitle(title);
+    }
 }

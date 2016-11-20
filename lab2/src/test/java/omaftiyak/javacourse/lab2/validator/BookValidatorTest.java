@@ -43,7 +43,6 @@ public class BookValidatorTest {
         Assert.assertNotNull("Exception should be thrown", exception);
         Assert.assertEquals(Arrays.asList("author should be provided and length less than 32",
                 "title should be provided and length less than 32",
-                "description should be provided and length less than 32",
                 "genre should be provided and length less than 32",
                 "language should be provided and length less than 32",
                 "Year of publication should be between 1000 and this year",
