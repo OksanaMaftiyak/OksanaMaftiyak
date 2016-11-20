@@ -2,13 +2,14 @@ package omaftiyak.javacourse.lab2.fx;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import omaftiyak.javacourse.lab2.model.Book;
 import omaftiyak.javacourse.lab2.service.BookService;
+import omaftiyak.javacourse.lab2.validator.BookValidator;
+import omaftiyak.javacourse.lab2.validator.ValidatorException;
 
 import java.net.URL;
 import java.util.Optional;
@@ -107,22 +108,31 @@ public class BooksController implements Initializable {
         Book book = tableView.getSelectionModel().getSelectedItem();
         if (book != null) {
             long id = book.getId();
-            fillBook(book);
-            book.setId(id);
-            bookService.update(book);
-            tableView.refresh();
+            try {
+                fillBook(book);
+                book.setId(id);
+                bookService.update(book);
+                tableView.refresh();
+            } catch (ValidatorException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Book isn`t valid:"+System.lineSeparator()+ e.getMessage(),ButtonType.OK);
+                alert.showAndWait();
+            }
         }
     }
 
     @FXML
     private void onSaveAsNewInternal() {
         Book book = new Book();
-        fillBook(book);
-        bookService.addBook(book);
-        tableView.getItems().add(book);
-        tableView.getSelectionModel().select(book);
+        try {
+            fillBook(book);
+            bookService.addBook(book);
+            tableView.getItems().add(book);
+            tableView.getSelectionModel().select(book);
+        } catch (ValidatorException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"Book isn`t valid:"+System.lineSeparator()+ e.getMessage(),ButtonType.OK);
+            alert.showAndWait();
+        }
     }
-
     @FXML
     private void onDeleteInternal() {
         Book book = tableView.getSelectionModel().getSelectedItem();
@@ -143,8 +153,16 @@ public class BooksController implements Initializable {
         tableView.getItems().addAll(bookService.selectAllBooks());
     }
 
-    private void fillBook(Book book) {
-        // todo validate fields before set them to book
+    private void fillBook(Book book) throws ValidatorException {
+        BookValidator validator = new BookValidator();
+        validator.validate(new String[]{
+                author.getText(),
+                title.getText(),
+                description.getText(),
+                genre.getText(),
+                language.getText(),
+                year.getText()
+        });
         book.setId(Integer.parseInt(id.getText()));
         book.setYearPublication(Integer.parseInt(year.getText()));
         book.setAuthor(author.getText());
@@ -153,4 +171,5 @@ public class BooksController implements Initializable {
         book.setLanguage(language.getText());
         book.setGenre(genre.getText());
     }
+
 }
