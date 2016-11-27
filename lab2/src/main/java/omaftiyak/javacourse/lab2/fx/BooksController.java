@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 public class BooksController implements Initializable {
 
+    private static final long DEFAULT_LIBRARY_ID = 1L;
     @FXML
     private TextField id;
 
@@ -79,7 +80,7 @@ public class BooksController implements Initializable {
     @FXML
     private void onFindByIdInternal() {
         tableView.getItems().clear();
-        Book book = bookService.findBookById(Integer.parseInt(id.getText()));
+        Book book = bookService.findBookById(DEFAULT_LIBRARY_ID, Long.parseLong(id.getText()));
         if (book != null) {
             tableView.getItems().addAll(book);
         }
@@ -88,19 +89,19 @@ public class BooksController implements Initializable {
     @FXML
     private void onFindByAuthorInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.findBooksByAuthor(author.getText()));
+        tableView.getItems().addAll(bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, author.getText()));
     }
 
     @FXML
     private void onFindByYearInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.findBooksByYear(Integer.parseInt(year.getText())));
+        tableView.getItems().addAll(bookService.findBooksByYear(DEFAULT_LIBRARY_ID, Integer.parseInt(year.getText())));
     }
 
     @FXML
     public void onFindByTitleInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.findBookByTitle(title.getText()));
+        tableView.getItems().addAll(bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title.getText()));
     }
 
     @FXML
@@ -111,7 +112,7 @@ public class BooksController implements Initializable {
             try {
                 fillBook(book);
                 book.setId(id);
-                bookService.update(book);
+                bookService.update(DEFAULT_LIBRARY_ID, book);
                 tableView.refresh();
             } catch (ValidatorException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,"Book isn`t valid:"+System.lineSeparator()+ e.getMessage(),ButtonType.OK);
@@ -125,7 +126,7 @@ public class BooksController implements Initializable {
         Book book = new Book();
         try {
             fillBook(book);
-            bookService.addBook(book);
+            bookService.addBook(DEFAULT_LIBRARY_ID, book);
             tableView.getItems().add(book);
             tableView.getSelectionModel().select(book);
         } catch (ValidatorException e) {
@@ -133,6 +134,7 @@ public class BooksController implements Initializable {
             alert.showAndWait();
         }
     }
+
     @FXML
     private void onDeleteInternal() {
         Book book = tableView.getSelectionModel().getSelectedItem();
@@ -142,7 +144,7 @@ public class BooksController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete selected book?" + System.lineSeparator() + book.toString(), ButtonType.NO, ButtonType.YES);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            bookService.delete(book.getId());
+            bookService.delete(DEFAULT_LIBRARY_ID, book.getId());
             tableView.getItems().remove(book);
         }
     }
@@ -150,7 +152,7 @@ public class BooksController implements Initializable {
     @FXML
     public void onRefreshInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.selectAllBooks());
+        tableView.getItems().addAll(bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID));
     }
 
     private void fillBook(Book book) throws ValidatorException {
@@ -163,7 +165,7 @@ public class BooksController implements Initializable {
                 language.getText(),
                 year.getText()
         });
-        book.setId(Integer.parseInt(id.getText()));
+        book.setId(0);
         book.setYearPublication(Integer.parseInt(year.getText()));
         book.setAuthor(author.getText());
         book.setBookTitle(title.getText());

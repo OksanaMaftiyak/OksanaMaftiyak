@@ -6,18 +6,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDao implements Dao<Book> {
+public class BookDao {
 
-    @Override
-    public void persist(Book book) {
+    public void persist(Long libraryId, Book book) {
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO books(booktitle, author, yearpublication, genre, description, language) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO books(booktitle, author, yearpublication, genre, description, language, libraryId) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, book.getBookTitle());
             ps.setString(2, book.getAuthor());
             ps.setInt(3, book.getYearPublication());
             ps.setString(4, book.getGenre());
             ps.setString(5, book.getDescription());
             ps.setString(6, book.getLanguage());
+            ps.setLong(7, libraryId);
             ps.execute();
             book.setId(ConnectionFactory.getLastId(con));
         } catch (SQLException e) {
@@ -25,10 +25,9 @@ public class BookDao implements Dao<Book> {
         }
     }
 
-    @Override
-    public void update(Book book) {
+    public void update(long libraryId, Book book) {
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("UPDATE books SET booktitle = ?, author = ?, yearpublication = ?, genre = ?, description = ?, language = ? WHERE id=?");
+            PreparedStatement ps = con.prepareStatement("UPDATE books SET booktitle = ?, author = ?, yearpublication = ?, genre = ?, description = ?, language = ? WHERE id=? and libraryId=?");
             ps.setString(1, book.getBookTitle());
             ps.setString(2, book.getAuthor());
             ps.setInt(3, book.getYearPublication());
@@ -36,17 +35,18 @@ public class BookDao implements Dao<Book> {
             ps.setString(5, book.getDescription());
             ps.setString(6, book.getLanguage());
             ps.setLong(7, book.getId());
+            ps.setLong(8, libraryId);
             ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Could not update book " + book, e);
         }
     }
 
-    @Override
-    public Book findById(long id) {
+    public Book findById(long libraryId, long bookId) {
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE id = ?");
-            ps.setLong(1, id);
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? and  id = ?");
+            ps.setLong(1, libraryId);
+            ps.setLong(2, bookId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return readBook(rs);
@@ -58,11 +58,11 @@ public class BookDao implements Dao<Book> {
         return null;
     }
 
-    @Override
-    public List<Book> selectAll() {
+    public List<Book> selectAllForLibrary(Long libraryId) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books");
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books where libraryId = ?");
+            ps.setLong(1, libraryId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(readBook(rs));
@@ -74,22 +74,23 @@ public class BookDao implements Dao<Book> {
         return result;
     }
 
-    @Override
-    public void deleteById(long id) {
+    public void deleteById(long libraryId, long id) {
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("DELETE FROM books WHERE id = ?");
-            ps.setLong(1, id);
+            PreparedStatement ps = con.prepareStatement("DELETE FROM books WHERE libraryId =? and id = ?");
+            ps.setLong(1, libraryId);
+            ps.setLong(2, id);
             ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public List<Book> findBooksByYear(int year) {
+    public List<Book> findBooksByYear(Long libraryId, int year) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE yearpublication = ?");
-            ps.setInt(1, year);
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND yearpublication = ?");
+            ps.setLong(1, libraryId);
+            ps.setInt(2, year);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(readBook(rs));
@@ -101,11 +102,11 @@ public class BookDao implements Dao<Book> {
         return result;
     }
 
-    public List<Book> findBooksByAuthor(String author) {
+    public List<Book> findBooksByAuthor(Long libraryId, String author) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
             Statement stm = con.createStatement();
-            try (ResultSet rs = stm.executeQuery("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE author like '" + author + "'")) {
+            try (ResultSet rs = stm.executeQuery("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = " + libraryId + " AND author like '" + author + "'")) {
                 while (rs.next()) {
                     result.add(readBook(rs));
                 }
@@ -116,11 +117,12 @@ public class BookDao implements Dao<Book> {
         return result;
     }
 
-    public List<Book> selectBooksByTitle(String title) {
+    public List<Book> selectBooksByTitle(Long libraryId, String title) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE booktitle like ?");
-            ps.setString(1, title);
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND booktitle like ?");
+            ps.setLong(1, libraryId);
+            ps.setString(2, title);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(readBook(rs));

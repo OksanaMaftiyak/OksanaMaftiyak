@@ -15,60 +15,70 @@ public class BookService {
     /**
      * Adds new book to library
      *
+     * @param libraryId library id
      * @param book book to add
      */
-    public void addBook(Book book) {
-        dao.persist(book);
+    public void addBook(Long libraryId, Book book) {
+        dao.persist(libraryId, book);
     }
 
     /**
      * Finds book y its id
      *
-     * @param id book id
+     * @param libraryId libraryid
+     * @param bookId book id
      * @return book or null if not found
      */
-    public Book findBookById(final int id) {
-        return dao.findById(id);
+    public Book findBookById(long libraryId, long bookId) {
+        return dao.findById(libraryId, bookId);
     }
 
     /**
      * Finds all books published in provided year
      *
+     *
+     * @param libraryId
      * @param year year of publication
      * @return list with books or empty list if not found
      */
-    public List<Book> findBooksByYear(int year) {
-        return dao.findBooksByYear(year);
+    public List<Book> findBooksByYear(Long libraryId, int year) {
+        return dao.findBooksByYear(libraryId, year);
     }
 
     /**
      * Finds all books written by provided author
      *
+     *
+     * @param libraryId
      * @param author author
      * @return list with books or empty list if not found
      */
-    public List<Book> findBooksByAuthor(String author) {
-        return dao.findBooksByAuthor(author);
+    public List<Book> findBooksByAuthor(Long libraryId, String author) {
+        return dao.findBooksByAuthor(libraryId, author);
     }
 
     /**
      * Finds all books with title as provided
      *
+     *
+     * @param libraryId
      * @param title book title
      * @return list with books or empty list if not found
      */
-    public List<Book> selectBooksByTitle(String title) {
-        return dao.selectBooksByTitle(title);
+    public List<Book> selectBooksByTitle(Long libraryId, String title) {
+        return dao.selectBooksByTitle(libraryId, title);
     }
 
     /**
-     * Selects all books
+     * Selects all books for specific library
      *
+     * @param libraryId library id
      * @return list with all books
      */
-    public List<Book> selectAllBooks() {
-        return dao.selectAll();
+    public List<Book> getAllBooksForLibrary(Long libraryId) {
+        return dao.selectAllForLibrary(libraryId);
     }
+
 
     /**
      * Checks if book is not taken by any abonent
@@ -83,10 +93,11 @@ public class BookService {
     /**
      * Updates existing book
      *
+     * @param libraryId library id
      * @param book book
      */
-    public void update(Book book) {
-        dao.update(book);
+    public void update(long libraryId, Book book) {
+        dao.update(libraryId, book);
     }
 
     /**
@@ -94,17 +105,8 @@ public class BookService {
      *
      * @param id book id
      */
-    public void delete(long id) {
-        dao.deleteById(id);
+    public void delete(long libraryId, long id) {
+        dao.deleteById(libraryId, id);
     }
 
-    /**
-     * Finds books matching title
-     *
-     * @param title title
-     * @return list of books
-     */
-    public List<Book> findBookByTitle(String title) {
-        return dao.selectBooksByTitle(title);
-    }
 }

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  */
 public class TicketService {
 
+    private static final int DEFAULT_LIBRARY = 1;
     private TicketDao ticketDao = new TicketDao();
     private BookService bookService = new BookService();
     private AbonentService abonentService = new AbonentService();
@@ -24,7 +25,7 @@ public class TicketService {
      * @param pay       pay that abonent paid for book
      */
     public void takeBook(int bookId, int abonentId, int pay) {
-        Book book = bookService.findBookById(bookId);
+        Book book = bookService.findBookById(DEFAULT_LIBRARY, bookId);
         Abonent abonent = abonentService.findAbonentById(abonentId);
         if (book == null) {
             throw new IllegalArgumentException("Book not found");

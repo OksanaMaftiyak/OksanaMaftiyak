@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 public class Controller {
 
+    private static final long DEFAULT_LIBRARY_ID = 1L;
     private BookService bookService = new BookService();
     private EmployeeService employeeService = new EmployeeService();
     private TicketService ticketService = new TicketService();
@@ -68,21 +69,21 @@ public class Controller {
 
     private void printBooksByYear(Library library) {
         int year = promptInt("Enter year of publication:");
-        for (Book book : bookService.findBooksByYear(year)) {
+        for (Book book : bookService.findBooksByYear(DEFAULT_LIBRARY_ID, year)) {
             System.out.println(book);
         }
     }
 
     private void printBooksByAuthor(Library library) {
         String authorName = promptString("Enter author: ");
-        for (Book book : bookService.findBooksByAuthor(authorName)) {
+        for (Book book : bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, authorName)) {
             System.out.println(book);
         }
     }
 
     private void printBooksByTitle(Library library) {
         String title = promptString("Enter book titles: ");
-        for (Book book : bookService.selectBooksByTitle(title)) {
+        for (Book book : bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title)) {
             System.out.println(book);
         }
     }
@@ -104,7 +105,7 @@ public class Controller {
     }
 
     private void printAllBooksSorted(Comparator<Book> comparator) {
-        List<Book> allBooks = bookService.selectAllBooks();
+        List<Book> allBooks = bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID);
         Collections.sort(allBooks, comparator);
         for (Book book : allBooks) {
             System.out.println(book);
@@ -119,7 +120,7 @@ public class Controller {
             String[] book = promptBook();
             try {
                 bookValidator.validate(book);
-                bookService.addBook(new Book(book));
+                bookService.addBook(DEFAULT_LIBRARY_ID, new Book(book));
                 break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());

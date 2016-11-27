@@ -1,5 +1,6 @@
 package omaftiyak.javacourse.lab2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import omaftiyak.javacourse.lab2.common.IdGenerator;
 
 import java.util.Comparator;
@@ -56,6 +57,7 @@ public class Book {
         this.yearPublication = Integer.parseInt(parts[fieldIndex++]);
     }
 
+    @JsonIgnore
     public String[] getParts() {
         return new String[]{bookTitle, author, language, description, genre, String.valueOf(yearPublication)};
     }

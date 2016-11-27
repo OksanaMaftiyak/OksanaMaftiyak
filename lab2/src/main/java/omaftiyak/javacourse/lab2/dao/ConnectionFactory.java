@@ -18,7 +18,7 @@ public class ConnectionFactory {
     private ConnectionFactory() {
         try { 
             properties = new Properties();
-            properties.load(new FileInputStream("app.properties"));
+            properties.load(getClass().getResourceAsStream("/app.properties"));
             Class<?> driverClass = Class.forName(properties.getProperty("libraryapp.jdbc.driverclass"));
             driver = (Driver) driverClass.newInstance();
         } catch (Exception e) {
