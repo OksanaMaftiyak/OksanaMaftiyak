@@ -38,21 +38,21 @@
                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   </rowConstraints>
                                   <children>
-                                      <Label text="Id" />
+
                                       <Label text="Title" GridPane.rowIndex="1" />
                                       <Label text="Author" GridPane.rowIndex="2" />
                                       <Label text="Year" GridPane.rowIndex="3" />
                                       <Label text="Genre" GridPane.rowIndex="4" />
                                       <Label text="Description" GridPane.rowIndex="5" />
                                       <Label text="Language" GridPane.rowIndex="6" />
-                                      <TextField fx:id="id" GridPane.columnIndex="1" />
+
                                       <TextField fx:id="title" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                       <TextField fx:id="author" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                       <TextField fx:id="year" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                       <TextField fx:id="genre" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                       <TextField fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                       <TextField fx:id="language" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                      <Button fx:id="finById" mnemonicParsing="false" onAction="#onFindByIdInternal" prefWidth="120.0" text="Find by Id" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+
                                       <Button fx:id="finByTitle" mnemonicParsing="false" onAction="#onFindByTitleInternal" prefWidth="120.0" text="Find by Title" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
                                       <Button fx:id="findByAuthor" mnemonicParsing="false" onAction="#onFindByAuthorInternal" prefWidth="120.0" text="Find by Author" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                       <Button fx:id="findByYear" mnemonicParsing="false" onAction="#onFindByYearInternal" prefWidth="120.0" text="Find by Year" GridPane.columnIndex="2" GridPane.rowIndex="3" />
