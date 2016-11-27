@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="/files/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/files/libs/html5shiv.min.js"></script>
+    <script src="/files/libs/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <h1>Library App</h1>
+    <button type="button" class="btn btn-primary" id="goBack">Go back</button>
+    <button type="button" class="btn btn-primary" id="refresh">Refresh</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookDialog">Add book</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchDialog">Search</button>
+    <h3>Library books:</h3>
+    <table id="books-table" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Language</th>
+            <th>Genre</th>
+            <th>Description</th>
+            <th><p class="text-right">Actions</p></th>
+        </tr>
+        </thead>
+        <tbody id="book-table-rows-container">
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="addBookDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add new book</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" class="form-control" id="id">
+                        <div class="form-group">
+                            <label for="bookTitle" class="col-sm-2 control-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="bookTitle" placeholder="title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-sm-2 control-label">Author</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="author" placeholder="author">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearPublication" class="col-sm-2 control-label">Year</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="yearPublication" placeholder="year">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="language" class="col-sm-2 control-label">Language</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="language" placeholder="language">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="genre" class="col-sm-2 control-label">Genre</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="genre" placeholder="genre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="description" rows="3"
+                                          placeholder="description"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary action">Add book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editBookDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">Edit book</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" class="form-control" id="id">
+                        <div class="form-group">
+                            <label for="bookTitle" class="col-sm-2 control-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="bookTitle" placeholder="title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="author" class="col-sm-2 control-label">Author</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="author" placeholder="author">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearPublication" class="col-sm-2 control-label">Year</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="yearPublication" placeholder="year">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="language" class="col-sm-2 control-label">Language</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="language" placeholder="language">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="genre" class="col-sm-2 control-label">Genre</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="genre" placeholder="genre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="description" rows="3"
+                                          placeholder="description"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary action">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="searchField" class="col-sm-2 control-label">Search by</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="searchField" name="searchField">
+                                    <option value="bookTitle">Title</option>
+                                    <option value="yearPublication">Year</option>
+                                    <option value="author">Author</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Query</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="query" class="form-control" id="inputPassword3"
+                                       placeholder="query">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="search btn btn-primary">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/files/libs/jquery/jquery-3.1.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/files/libs/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+<span id="tmpl" class="hidden">
+    <table>
+    <tr class="book-table-row">
+        <td class="bookTitle"/>
+        <td class="author"/>
+        <td class="yearPublication"/>
+        <td class="language"/>
+        <td class="genre"/>
+        <td class="description"/>
+        <td class="actions">
+            <p class="text-right">
+                <button type="button" class="btn btn-default btn-xs" book-action="edit">edit</button>
+                <button type="button" class="btn btn-default btn-xs" book-action="delete">delete</button>
+            </p>
+        </td>
+    </tr>
+    </table>
+</span>
+
+<script>
+    $(document).ready(function () {
+
+        var libId = document.location.pathname.substr('/library/'.length);
+
+        var fillTable = function (data) {
+            $('#book-table-rows-container').html('');
+            $.each(data, function (index, value) {
+                var item = $('.book-table-row', '#tmpl').clone();
+                for (var p in value) {
+                    $('.' + p, item).text(value[p]);
+                }
+                $('button', item).attr('book-id', value.id);
+                $(item).appendTo('#book-table-rows-container');
+            });
+        };
+
+        // FILL TABLE
+        $.get('/library.json/' + libId + '/book.json', fillTable, 'json');
+
+        // ADD NEW BOOK
+        $('.action', '#addBookDialog').on('click', function (e) {
+            // collect data
+            var data = {};
+            $('input', '#addBookDialog').each(function (index, element) {
+                data[$(element).attr('id')] = $(element).val();
+            });
+            data['description'] = $('textarea', '#addBookDialog').val();
+
+            // send data
+            $.ajax({
+                type: "POST",
+                url: '/library.json/' + libId + '/book.json',
+                data: JSON.stringify(data),
+                success: function () {
+                    location.reload();
+                },
+                error:function (e) {
+                    alert(e);
+                },
+                dataType: 'json'
+            });
+        });
+
+        // CLICK ON EDIT/DELETE
+        $('#books-table').on('click', function (e) {
+            var action = $(e.target).attr('book-action');
+            if (action === 'edit') {
+                // get data from server
+                var bookId = $(e.target).attr('book-id');
+                $.ajax({
+                    type: 'GET',
+                    url: '/library.json/' + libId + '/book.json/' + bookId,
+                    dataType: "json"
+                }).fail(function (e) {
+                    alert('Could not get book from server');
+                }).done(function (data) {
+                    // populate dialog
+                    $('input', '#editBookDialog').each(function (index, element) {
+                        $(element).val(data[$(element).attr('id')]);
+                    });
+                    $('textarea', '#editBookDialog').val(data['description']);
+                    // show dialog
+                    $('#editBookDialog').modal('show');
+                });
+            } else if (action == 'delete') {
+                if (!confirm('Delete book?')) {
+                    return;
+                }
+                var bookId = $(e.target).attr('book-id');
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/library.json/' + libId + '/book.json/' + bookId,
+                    dataType: 'json'
+                }).fail(function (e) {
+                    alert('Could not delete book');
+                }).done(function (e) {
+                    location.reload();
+                });
+            }
+        });
+
+        // EDIT EXISTING BOOK
+        $('.action', '#editBookDialog').on('click', function (e) {
+            // get data from form
+            var data = {};
+            $('input', '#editBookDialog').each(function (index, element) {
+                data[$(element).attr('id')] = $(element).val();
+            });
+            data['description'] = $('textarea', '#editBookDialog').val();
+            // send data to the server
+            $.ajax({
+                type: 'PUT',
+                url: '/library.json/' + libId + '/book.json/' + data.id,
+                data: JSON.stringify(data),
+                dataType: "json"
+            }).fail(function (e) {
+                alert('Could not update book from server');
+            }).done(function (data) {
+                location.reload();
+            });
+        });
+
+        // GO BACK
+        $('#goBack').on('click', function () {
+            location.href = '/';
+        });
+
+        // REFRESH
+        $('#refresh').on('click', function () {
+            location.reload();
+        });
+
+        // SEARCH
+        $('.search', '#searchDialog').on('click', function () {
+            var request = {
+                searchField: $('#searchField', '#searchDialog').val(),
+                query: $('#query', '#searchDialog').val()
+            };
+            $.ajax({
+                type: 'GET',
+                url: '/library.json/' + libId + '/book.json/search',
+                data: request,
+                dataType: "json"
+            }).fail(function (e) {
+                alert('Could not load data from server');
+            }).done(function (data) {
+                fillTable(data);
+                $('#searchDialog').modal('hide');
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
