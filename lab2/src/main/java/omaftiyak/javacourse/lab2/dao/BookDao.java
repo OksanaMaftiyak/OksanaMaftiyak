@@ -1,6 +1,8 @@
 package omaftiyak.javacourse.lab2.dao;
 
 import omaftiyak.javacourse.lab2.model.Book;
+import omaftiyak.javacourse.lab2.model.ColumnOrdering;
+import omaftiyak.javacourse.lab2.model.OrderingInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -58,10 +60,10 @@ public class BookDao {
         return null;
     }
 
-    public List<Book> selectAllForLibrary(Long libraryId) {
+    public List<Book> selectAllForLibrary(Long libraryId, OrderingInfo ordering) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books where libraryId = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books where libraryId = ?" + buildOrderingSql(ordering));
             ps.setLong(1, libraryId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -85,10 +87,10 @@ public class BookDao {
         }
     }
 
-    public List<Book> findBooksByYear(Long libraryId, int year) {
+    public List<Book> findBooksByYear(Long libraryId, int year, OrderingInfo ordering) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND yearpublication = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND yearpublication = ?" + buildOrderingSql(ordering));
             ps.setLong(1, libraryId);
             ps.setInt(2, year);
             try (ResultSet rs = ps.executeQuery()) {
@@ -102,11 +104,11 @@ public class BookDao {
         return result;
     }
 
-    public List<Book> findBooksByAuthor(Long libraryId, String author) {
+    public List<Book> findBooksByAuthor(Long libraryId, String author, OrderingInfo ordering) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
             Statement stm = con.createStatement();
-            try (ResultSet rs = stm.executeQuery("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = " + libraryId + " AND author like '" + author + "'")) {
+            try (ResultSet rs = stm.executeQuery("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = " + libraryId + " AND author like '" + author + "'" + buildOrderingSql(ordering))) {
                 while (rs.next()) {
                     result.add(readBook(rs));
                 }
@@ -117,10 +119,10 @@ public class BookDao {
         return result;
     }
 
-    public List<Book> selectBooksByTitle(Long libraryId, String title) {
+    public List<Book> selectBooksByTitle(Long libraryId, String title, OrderingInfo ordering) {
         List<Book> result = new ArrayList<>();
         try (Connection con = ConnectionFactory.getCon()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND booktitle like ?");
+            PreparedStatement ps = con.prepareStatement("SELECT id, booktitle, author, yearpublication, genre, description, language FROM books WHERE libraryId = ? AND booktitle like ?" + buildOrderingSql(ordering));
             ps.setLong(1, libraryId);
             ps.setString(2, title);
             try (ResultSet rs = ps.executeQuery()) {
@@ -156,6 +158,51 @@ public class BookDao {
         book.setDescription(rs.getString(6));
         book.setLanguage(rs.getString(7));
         return book;
+    }
+
+    private String buildOrderingSql(OrderingInfo ordering) {
+        if (ordering == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (ColumnOrdering co : ordering.getColumnOrderings()) {
+            Column column = Column.fromColumnName(co.getColumn());
+            if (sb.length() == 0) {
+                sb.append(" ORDER BY ");
+            } else {
+                sb.append(", ");
+            }
+            sb.append(column.getColumnName().toLowerCase());
+            sb.append(" ").append(co.getOrder().toString());
+        }
+        return sb.toString();
+    }
+
+    private enum Column {
+
+        TITLE("bookTitle"),
+        AUTHOR("author"),
+        YEAR("yearPublication");
+
+        private String columnName;
+
+        Column(String columnName) {
+            this.columnName = columnName;
+        }
+
+        public String getColumnName() {
+            return columnName;
+        }
+
+        public static Column fromColumnName(String columnName) {
+            for (Column column : values()) {
+                if (column.getColumnName().equals(columnName)) {
+                    return column;
+                }
+            }
+            throw new IllegalArgumentException("Unknown column name");
+        }
+
     }
 
 }

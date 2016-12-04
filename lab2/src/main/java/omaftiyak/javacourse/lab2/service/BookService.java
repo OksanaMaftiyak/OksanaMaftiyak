@@ -2,6 +2,7 @@ package omaftiyak.javacourse.lab2.service;
 
 import omaftiyak.javacourse.lab2.dao.BookDao;
 import omaftiyak.javacourse.lab2.model.Book;
+import omaftiyak.javacourse.lab2.model.OrderingInfo;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class BookService {
      * Adds new book to library
      *
      * @param libraryId library id
-     * @param book book to add
+     * @param book      book to add
      */
     public void addBook(Long libraryId, Book book) {
         dao.persist(libraryId, book);
@@ -26,7 +27,7 @@ public class BookService {
      * Finds book y its id
      *
      * @param libraryId libraryid
-     * @param bookId book id
+     * @param bookId    book id
      * @return book or null if not found
      */
     public Book findBookById(long libraryId, long bookId) {
@@ -36,47 +37,48 @@ public class BookService {
     /**
      * Finds all books published in provided year
      *
-     *
-     * @param libraryId
-     * @param year year of publication
+     * @param libraryId library id
+     * @param year      year of publication
+     * @param ordering  ordering
      * @return list with books or empty list if not found
      */
-    public List<Book> findBooksByYear(Long libraryId, int year) {
-        return dao.findBooksByYear(libraryId, year);
+    public List<Book> findBooksByYear(Long libraryId, int year, OrderingInfo ordering) {
+        return dao.findBooksByYear(libraryId, year, ordering);
     }
 
     /**
      * Finds all books written by provided author
      *
-     *
-     * @param libraryId
-     * @param author author
+     * @param libraryId library id
+     * @param author    author
+     * @param ordering  ordering
      * @return list with books or empty list if not found
      */
-    public List<Book> findBooksByAuthor(Long libraryId, String author) {
-        return dao.findBooksByAuthor(libraryId, author);
+    public List<Book> findBooksByAuthor(Long libraryId, String author, OrderingInfo ordering) {
+        return dao.findBooksByAuthor(libraryId, author, ordering);
     }
 
     /**
      * Finds all books with title as provided
      *
-     *
-     * @param libraryId
-     * @param title book title
+     * @param libraryId library id
+     * @param title     book title
+     * @param ordering  ordering
      * @return list with books or empty list if not found
      */
-    public List<Book> selectBooksByTitle(Long libraryId, String title) {
-        return dao.selectBooksByTitle(libraryId, title);
+    public List<Book> selectBooksByTitle(Long libraryId, String title, OrderingInfo ordering) {
+        return dao.selectBooksByTitle(libraryId, title, ordering);
     }
 
     /**
      * Selects all books for specific library
      *
      * @param libraryId library id
+     * @param ordering  ordering
      * @return list with all books
      */
-    public List<Book> getAllBooksForLibrary(Long libraryId) {
-        return dao.selectAllForLibrary(libraryId);
+    public List<Book> getAllBooksForLibrary(Long libraryId, OrderingInfo ordering) {
+        return dao.selectAllForLibrary(libraryId, ordering);
     }
 
 
@@ -94,7 +96,7 @@ public class BookService {
      * Updates existing book
      *
      * @param libraryId library id
-     * @param book book
+     * @param book      book
      */
     public void update(long libraryId, Book book) {
         dao.update(libraryId, book);

@@ -24,11 +24,11 @@ public class BookValidator implements Validator<Book> {
             throw new ValidatorException("Invalid line format");
         }
         int index=0;
-        int authorIndex=index++;
         int titleIndex=index++;
+        int authorIndex=index++;
+        int languageIndex=index++;
         int descriptionIndex=index++;
         int genreIndex=index++;
-        int languageIndex=index++;
         int yearOfPublicationIndex=index++;
 
         validateString(parts[authorIndex], 32, "author", errors);

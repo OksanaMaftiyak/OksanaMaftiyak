@@ -89,19 +89,19 @@ public class BooksController implements Initializable {
     @FXML
     private void onFindByAuthorInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, author.getText()));
+        tableView.getItems().addAll(bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, author.getText(), null));
     }
 
     @FXML
     private void onFindByYearInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.findBooksByYear(DEFAULT_LIBRARY_ID, Integer.parseInt(year.getText())));
+        tableView.getItems().addAll(bookService.findBooksByYear(DEFAULT_LIBRARY_ID, Integer.parseInt(year.getText()), null));
     }
 
     @FXML
     public void onFindByTitleInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title.getText()));
+        tableView.getItems().addAll(bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title.getText(), null));
     }
 
     @FXML
@@ -152,7 +152,7 @@ public class BooksController implements Initializable {
     @FXML
     public void onRefreshInternal() {
         tableView.getItems().clear();
-        tableView.getItems().addAll(bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID));
+        tableView.getItems().addAll(bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID, null));
     }
 
     private void fillBook(Book book) throws ValidatorException {

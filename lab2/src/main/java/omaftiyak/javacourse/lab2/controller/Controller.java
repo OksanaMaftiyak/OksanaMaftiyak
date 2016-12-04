@@ -69,21 +69,21 @@ public class Controller {
 
     private void printBooksByYear(Library library) {
         int year = promptInt("Enter year of publication:");
-        for (Book book : bookService.findBooksByYear(DEFAULT_LIBRARY_ID, year)) {
+        for (Book book : bookService.findBooksByYear(DEFAULT_LIBRARY_ID, year, null)) {
             System.out.println(book);
         }
     }
 
     private void printBooksByAuthor(Library library) {
         String authorName = promptString("Enter author: ");
-        for (Book book : bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, authorName)) {
+        for (Book book : bookService.findBooksByAuthor(DEFAULT_LIBRARY_ID, authorName, null)) {
             System.out.println(book);
         }
     }
 
     private void printBooksByTitle(Library library) {
         String title = promptString("Enter book titles: ");
-        for (Book book : bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title)) {
+        for (Book book : bookService.selectBooksByTitle(DEFAULT_LIBRARY_ID, title, null)) {
             System.out.println(book);
         }
     }
@@ -105,7 +105,7 @@ public class Controller {
     }
 
     private void printAllBooksSorted(Comparator<Book> comparator) {
-        List<Book> allBooks = bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID);
+        List<Book> allBooks = bookService.getAllBooksForLibrary(DEFAULT_LIBRARY_ID, null);
         Collections.sort(allBooks, comparator);
         for (Book book : allBooks) {
             System.out.println(book);

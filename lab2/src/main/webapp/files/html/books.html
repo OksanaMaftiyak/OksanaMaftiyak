@@ -28,9 +28,9 @@
     <table id="books-table" class="table table-striped">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
+            <th>Title <span class="glyphicon glyphicon-sort" column="bookTitle" aria-hidden="true"></span></th>
+            <th>Author <span class="glyphicon glyphicon-sort" column="author" aria-hidden="true"></span></th>
+            <th>Year <span class="glyphicon glyphicon-sort" column="yearPublication" aria-hidden="true"></span></th>
             <th>Language</th>
             <th>Genre</th>
             <th>Description</th>
@@ -238,7 +238,9 @@
         };
 
         // FILL TABLE
-        $.get('/library.json/' + libId + '/book.json', fillTable, 'json');
+        var refresh = function () {
+            $.get('/library.json/' + libId + '/book.json?' + getOrderingQueryString(), fillTable, 'json');
+        };
 
         // ADD NEW BOOK
         $('.action', '#addBookDialog').on('click', function (e) {
@@ -258,7 +260,7 @@
                     location.reload();
                 },
                 error:function (e) {
-                    alert(e);
+                    responseErrorHandler(e);
                 },
                 dataType: 'json'
             });
@@ -317,7 +319,7 @@
                 data: JSON.stringify(data),
                 dataType: "json"
             }).fail(function (e) {
-                alert('Could not update book from server');
+                responseErrorHandler(e);
             }).done(function (data) {
                 location.reload();
             });
@@ -330,14 +332,15 @@
 
         // REFRESH
         $('#refresh').on('click', function () {
-            location.reload();
+            refresh();
         });
 
         // SEARCH
         $('.search', '#searchDialog').on('click', function () {
             var request = {
                 searchField: $('#searchField', '#searchDialog').val(),
-                query: $('#query', '#searchDialog').val()
+                query: $('#query', '#searchDialog').val(),
+                ordering: getOrderingQueryString()
             };
             $.ajax({
                 type: 'GET',
@@ -351,6 +354,57 @@
                 $('#searchDialog').modal('hide');
             });
         });
+
+        // ORDERING
+        var ORDERING_DIRECTIONS = ['', 'ASC', 'DESC'];
+        var ORDERING_ICONS_CLASSES = ['glyphicon glyphicon-sort', 'glyphicon glyphicon-sort-by-alphabet', 'glyphicon glyphicon-sort-by-alphabet-alt'];
+
+        $('#books-table thead th').each(function (index, th) {
+            var span = $('span[column]', th);
+            if (span.length == 1) {
+                $(th).on('click', function () {
+                    var ordering = $(span).attr('ordering') | 0;
+                    ordering++;
+                    if (ordering == ORDERING_DIRECTIONS.length) {
+                        ordering = 0;
+                    }
+                    $(span).attr('ordering', ordering);
+                    $(span).attr('class', ORDERING_ICONS_CLASSES[ordering]);
+                    $(span).attr('changedOn', new Date().getTime());
+                    refresh();
+                });
+            }
+        });
+
+        var COMPARATOR = function (a, b) {
+            var changedOnA = $(a).attr('changedOn') | 0;
+            var changedOnB = $(b).attr('changedOn') | 0;
+            return changedOnA - changedOnB;
+        };
+
+        var getOrderingQueryString = function () {
+            var spans = $('#books-table thead span[column]');
+            spans.sort(COMPARATOR, false);
+            var result = '';
+            $(spans).each(function (index, span) {
+                var ordering = $(span).attr('ordering') | 0;
+                if (ordering != 0) {
+                    if (result.length > 0) {
+                        result += ';'
+                    }
+                    result += ($(span).attr('column') + ':' + ORDERING_DIRECTIONS[ordering]);
+                }
+            });
+            console.log(result);
+            return 'ordering=' + result;
+        };
+
+        var responseErrorHandler = function (e) {
+            alert('You entered invalid data. Please see errors:\n\n' + e.responseText);
+        };
+
+        // START
+        refresh();
 
     });
 </script>
