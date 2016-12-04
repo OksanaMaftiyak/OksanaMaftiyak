@@ -239,7 +239,7 @@
 
         // FILL TABLE
         var refresh = function () {
-            $.get('/library.json/' + libId + '/book.json?' + getOrderingQueryString(), fillTable, 'json');
+            $.get('/library.json/' + libId + '/book.json?ordering=' + getOrderingQueryString(), fillTable, 'json');
         };
 
         // ADD NEW BOOK
@@ -396,7 +396,7 @@
                 }
             });
             console.log(result);
-            return 'ordering=' + result;
+            return result;
         };
 
         var responseErrorHandler = function (e) {
