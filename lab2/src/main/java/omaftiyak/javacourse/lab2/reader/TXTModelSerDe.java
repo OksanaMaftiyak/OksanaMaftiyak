@@ -5,6 +5,7 @@ import omaftiyak.javacourse.lab2.validator.ValidatorException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 
 class TXTModelSerDe<T> implements ModelSerDe<T> {
 
@@ -27,7 +28,6 @@ class TXTModelSerDe<T> implements ModelSerDe<T> {
                 result.add(parser.parse(line));
             } catch (ValidatorException e) {
                 e.printStackTrace();
-                continue;
             }
         } while (true);
         return result;
@@ -35,18 +35,12 @@ class TXTModelSerDe<T> implements ModelSerDe<T> {
 
     @Override
     public void write(String filePath, List<T> models) throws IOException {
-        PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(filePath)));
-        for (T model : models) {
-            String[] parts = parser.getParts(model);
-            for (int i = 0; i < parts.length; i++) {
-                if (i > 0) {
-                    writer.print(Parser.SEPARATOR);
-                }
-                writer.print(parts[i]);
-            }
-            writer.println();
+        try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(filePath)))) {
+            models.stream()
+                    .map((T model) -> parser.getParts(model))
+                    .map((String[] parts) -> String.join(Parser.SEPARATOR, parts))
+                    .forEach(writer::println);
         }
-        writer.close();
     }
 
 

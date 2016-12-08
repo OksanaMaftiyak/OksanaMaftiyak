@@ -14,13 +14,11 @@ public class AbonentService {
      * @param id abonent's id
      * @return abonent or null if not found
      */
-    public Abonent findAbonentById(int id) {
-        for (Abonent abonent : Library.getLibrary().getAbonents()) {
-            if (id == abonent.getId()) {
-                return abonent;
-            }
-        }
-        return null;
+    public Abonent findAbonentById(long id) {
+        return Library.getLibrary().getAbonents().stream()
+                .filter(abonent -> abonent.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     /**

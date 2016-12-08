@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Abonent implements Comparable<Abonent> {
 
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private int yearBirth;
@@ -45,7 +45,7 @@ public class Abonent implements Comparable<Abonent> {
         return firstName.compareToIgnoreCase(obj.firstName);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -4,21 +4,22 @@ import omaftiyak.javacourse.lab2.common.IdGenerator;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.Objects;
 
 
 public class Ticket {
 
     private long id;
-    private int userId;
-    private int bookId;
+    private long userId;
+    private long bookId;
     private LocalDateTime dateTaking;
     private LocalDateTime dateReturning;
     private int pay;
 
     private static final IdGenerator ID_GENERATOR = new IdGenerator();
 
-    public Ticket(int id, int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+    public Ticket(long id, long bookId, long userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
         this.id = id;
         this.bookId = bookId;
         this.userId = userId;
@@ -27,7 +28,7 @@ public class Ticket {
         this.pay = pay;
     }
 
-    public Ticket(int bookId, int userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
+    public Ticket(long bookId, long userId, LocalDateTime dateTaking, LocalDateTime dateReturning, int pay) {
         this(ID_GENERATOR.nextId(), bookId, userId, dateTaking, dateReturning, pay);
     }
 
@@ -53,19 +54,19 @@ public class Ticket {
         this.id = id;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public int getBookId() {
+    public long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 

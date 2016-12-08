@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Employee {
 
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String position;
@@ -46,7 +46,7 @@ public class Employee {
     public Employee() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

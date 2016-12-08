@@ -1,21 +1,11 @@
 package omaftiyak.javacourse.lab2.controller;
 
-import omaftiyak.javacourse.lab2.model.Abonent;
-import omaftiyak.javacourse.lab2.model.Book;
-import omaftiyak.javacourse.lab2.model.Employee;
-import omaftiyak.javacourse.lab2.model.Library;
-import omaftiyak.javacourse.lab2.service.AbonentService;
-import omaftiyak.javacourse.lab2.service.BookService;
-import omaftiyak.javacourse.lab2.service.EmployeeService;
-import omaftiyak.javacourse.lab2.service.TicketService;
-import omaftiyak.javacourse.lab2.validator.AbonentValidator;
-import omaftiyak.javacourse.lab2.validator.BookValidator;
-import omaftiyak.javacourse.lab2.validator.EmployeeValidator;
-import omaftiyak.javacourse.lab2.validator.ValidatorException;
+import omaftiyak.javacourse.lab2.model.*;
+import omaftiyak.javacourse.lab2.service.*;
+import omaftiyak.javacourse.lab2.validator.*;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Controller {
@@ -40,7 +30,7 @@ public class Controller {
         String language = promptString("Enter language of book:");
         String description = promptString("Enter description of book:");
         String genre = promptString("Enter genre of book:");
-        return new String[]{year, name, title, description, language, genre};
+        return new String[]{ title, name,year, description, language, genre};
     }
 
     private void takeBook() {
@@ -68,23 +58,17 @@ public class Controller {
 
     private void printBooksByYear(Library library) {
         int year = promptInt("Enter year of publication:");
-        for (Book book : bookService.findBooksByYear(year)) {
-            System.out.println(book);
-        }
+        bookService.findBooksByYear(year).forEach(System.out::println);
     }
 
     private void printBooksByAuthor(Library library) {
         String authorName = promptString("Enter author: ");
-        for (Book book : bookService.findBooksByAuthor(authorName)) {
-            System.out.println(book);
-        }
+       bookService.findBooksByAuthor(authorName).forEach(System.out::println);
     }
 
     private void printBooksByTitle(Library library) {
         String title = promptString("Enter book titles: ");
-        for (Book book : bookService.selectBooksByTitle(title)) {
-            System.out.println(book);
-        }
+     bookService.selectBooksByTitle(title).forEach(System.out::println);
     }
 
     private int promptInt(String message) {
@@ -100,15 +84,12 @@ public class Controller {
 
     private String promptString(String message) {
         System.out.print(message);
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     private void printAllBooksSorted(Comparator<Book> comparator) {
-        List<Book> allBooks = bookService.selectAllBooks();
-        Collections.sort(allBooks, comparator);
-        for (Book book : allBooks) {
-            System.out.println(book);
-        }
+        bookService.selectAllBooks().stream()
+                .sorted(comparator).forEach(System.out::println);
     }
 
 
@@ -120,7 +101,7 @@ public class Controller {
             try {
                 bookValidator.validate(book);
                 bookService.addBook(new Book(book));
-                break;
+              //  System.out.println(bookService.findBookById(promptInt("Enter id book:")).toString());
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());
             }
@@ -131,7 +112,6 @@ public class Controller {
             try {
                 employeeValidator.validate(employee);
                 employeeService.addEmployee(new Employee(employee));
-                break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());
             }
@@ -142,7 +122,6 @@ public class Controller {
             try {
                 abonentValidator.validate(abonent);
                 abonentService.addAbonent(new Abonent(abonent));
-                break;
             } catch (ValidatorException e) {
                 System.out.println(e.getMessage());
             }

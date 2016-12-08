@@ -14,6 +14,7 @@ public class Library {
 
     private final List<Book> books = new ArrayList<>();
     private final List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> ticketHistory = new ArrayList<>();
     private final List<Employee> employees = new ArrayList<>();
     private final List<Abonent> abonents = new ArrayList<>();
 
@@ -25,6 +26,10 @@ public class Library {
     }
 
     private Library() {
+    }
+
+    public List<Ticket> getTicketHistory() {
+        return ticketHistory;
     }
 
     public String getName() {
@@ -55,10 +60,7 @@ public class Library {
         return books;
     }
 
-    /**
-     * Deprecated - please use TicketDao
-     */
-    @Deprecated
+
     public List<Ticket> getTickets() {
         return tickets;
     }

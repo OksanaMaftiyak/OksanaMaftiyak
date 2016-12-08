@@ -2,9 +2,9 @@ package omaftiyak.javacourse.lab2.common;
 
 public class IdGenerator {
 
-    private int nextId = 1;
+    private long nextId = 1;
 
-    public int nextId() {
+    public long nextId() {
         return nextId++;
     }
 

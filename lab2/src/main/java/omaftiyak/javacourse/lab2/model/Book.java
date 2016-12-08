@@ -9,7 +9,7 @@ public class Book {
 
     public static final String EMPTY_STRING = "";
 
-    private int id;
+    private long id;
     private String bookTitle;
     private String author;
     private int yearPublication;
@@ -31,7 +31,7 @@ public class Book {
         this(book.id, book.yearPublication, book.author, book.bookTitle, book.description, book.language, book.genre);
     }
 
-    public Book(int id, int yearPublication, String author, String bookTitle, String description, String language, String genre) {
+    public Book(long id, int yearPublication, String author, String bookTitle, String description, String language, String genre) {
         this.bookTitle = bookTitle;
         this.author = author;
         this.yearPublication = yearPublication;
@@ -50,10 +50,10 @@ public class Book {
         this.id = getId();
         this.bookTitle = parts[fieldIndex++];
         this.author = parts[fieldIndex++];
+        this.yearPublication = Integer.parseInt(parts[fieldIndex++]);
         this.language = parts[fieldIndex++];
         this.description = parts[fieldIndex++];
         this.genre = parts[fieldIndex++];
-        this.yearPublication = Integer.parseInt(parts[fieldIndex++]);
     }
 
     public String[] getParts() {
@@ -87,11 +87,11 @@ public class Book {
 
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

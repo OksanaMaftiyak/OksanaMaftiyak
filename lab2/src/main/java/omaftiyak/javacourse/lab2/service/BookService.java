@@ -7,6 +7,7 @@ import omaftiyak.javacourse.lab2.model.Ticket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Service to manage books
@@ -28,13 +29,11 @@ public class BookService {
      * @param id book id
      * @return book or null if not found
      */
-    public Book findBookById(final int id) {
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (id == book.getId()) {
-                return book;
-            }
-        }
-        return null;
+    public Book findBookById(final long id) {
+        return Library.getLibrary().getBooks().stream()
+                .filter(book -> book.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -44,13 +43,9 @@ public class BookService {
      * @return list with books or empty list if not found
      */
     public List<Book> findBooksByYear(int year) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (book.getYearPublication() == year) {
-                result.add(book);
-            }
-        }
-        return result;
+     return  Library.getLibrary().getBooks().stream()
+                .filter(book -> book.getYearPublication()==year)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -59,14 +54,10 @@ public class BookService {
      * @param author author
      * @return list with books or empty list if not found
      */
-    public ArrayList<Book> findBooksByAuthor(String author) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (Objects.equals(book.getAuthor(), author)) {
-                result.add(book);
-            }
-        }
-        return result;
+    public List<Book> findBooksByAuthor(String author) {
+       return Library.getLibrary().getBooks().stream()
+               .filter(book -> book.getAuthor().equals(author))
+               .collect(Collectors.toList());
     }
 
     /**
@@ -75,14 +66,10 @@ public class BookService {
      * @param title book title
      * @return list with books or empty list if not found
      */
-    public ArrayList<Book> selectBooksByTitle(String title) {
-        ArrayList<Book> result = new ArrayList<>();
-        for (Book book : Library.getLibrary().getBooks()) {
-            if (Objects.equals(book.getBookTitle(), title)) {
-                result.add(book);
-            }
-        }
-        return result;
+    public List<Book> selectBooksByTitle(String title) {
+       return Library.getLibrary().getBooks().stream()
+                .filter(book -> book.getBookTitle().equals(title))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -91,7 +78,8 @@ public class BookService {
      * @return list with all books
      */
     public List<Book> selectAllBooks() {
-        return new ArrayList<>(Library.getLibrary().getBooks());
+        return Library.getLibrary().getBooks().stream()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -100,14 +88,6 @@ public class BookService {
      * @param book book to be checked
      * @return true if book could be taken from library, otherwise - false
      */
-    public boolean isBookAvailable(Book book) {
-        // todo create BookDao and query DB if book is not assigned to any open ticket
-        for (Ticket ticket : Library.getLibrary().getTickets()) {
-            if (ticket.getBookId() == book.getId()) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
 }
